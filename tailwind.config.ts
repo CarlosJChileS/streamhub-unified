@@ -61,7 +61,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				/* WatchHub Streaming Custom Colors */
+				'premium-gold': 'hsl(var(--premium-gold))',
+				'streaming-blue': 'hsl(var(--streaming-blue))'
+			},
+			backgroundImage: {
+				'hero-gradient': 'var(--hero-gradient)',
+				'content-overlay': 'var(--content-overlay)',
+				'glass-bg': 'var(--glass-bg)'
+			},
+			boxShadow: {
+				'glow': 'var(--shadow-glow)',
+				'card-hover': 'var(--shadow-card)'
+			},
+			transitionTimingFunction: {
+				'smooth': 'var(--transition-smooth)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

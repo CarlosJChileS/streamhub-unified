@@ -8,35 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* WatchHub Streaming - Cinematographic Design System */
+    --background: 220 13% 6%;
+    --foreground: 210 20% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 13% 9%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 13% 9%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 249 95% 63%;
+    --primary-foreground: 210 20% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 215 25% 15%;
+    --secondary-foreground: 210 20% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 25% 12%;
+    --muted-foreground: 215.4 16.3% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 284 100% 65%;
+    --accent-foreground: 210 20% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 215 25% 18%;
+    --input: 215 25% 15%;
+    --ring: 249 95% 63%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom streaming theme colors */
+    --hero-gradient: linear-gradient(135deg, hsl(249 95% 63% / 0.8), hsl(284 100% 65% / 0.8));
+    --content-overlay: linear-gradient(to top, hsl(220 13% 6% / 0.95), transparent);
+    --glass-bg: hsl(215 25% 15% / 0.8);
+    --premium-gold: 43 96% 56%;
+    --streaming-blue: 217 91% 60%;
+    
+    /* Shadows and effects */
+    --shadow-glow: 0 0 50px hsl(249 95% 63% / 0.3);
+    --shadow-card: 0 10px 30px hsl(220 13% 6% / 0.5);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
