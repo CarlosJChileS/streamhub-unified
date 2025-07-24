@@ -1,9 +1,11 @@
 import { Navbar } from "@/components/layout/navbar";
 import { HeroSection } from "@/components/ui/hero-section";
 import { ContentRow } from "@/components/ui/content-row";
+import { TopTenRow } from "@/components/ui/top-ten-row";
+import { ContinueWatchingRow } from "@/components/ui/continue-watching-row";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Play, TrendingUp } from "lucide-react";
+import { Star, Play, TrendingUp, Award, Clock } from "lucide-react";
 import movie1 from "@/assets/movie-1.jpg";
 import movie2 from "@/assets/movie-2.jpg";
 import movie3 from "@/assets/movie-3.jpg";
@@ -13,117 +15,228 @@ const Index = () => {
   const trendingMovies = [
     {
       id: "1",
-      title: "Acción Extrema",
+      title: "El Último Guardián",
       image: movie1,
-      rating: "8.5",
+      rating: "98%",
       duration: "2h 15m",
       category: "Acción",
-      isNew: true
+      isNew: true,
+      year: "2024"
     },
     {
       id: "2",
-      title: "Romance Eterno",
+      title: "Corazones en París",
       image: movie2,
-      rating: "7.8",
+      rating: "92%",
       duration: "1h 58m",
       category: "Romance",
-      isNew: false
+      isNew: false,
+      year: "2024"
     },
     {
       id: "3",
-      title: "Futuro Distópico",
+      title: "Neo Tokyo 2099",
       image: movie3,
-      rating: "9.1",
+      rating: "95%",
       duration: "2h 32m",
       category: "Sci-Fi",
-      isNew: true
+      isNew: true,
+      year: "2024"
     },
     {
       id: "4",
-      title: "Acción Extrema",
+      title: "La Conspiración",
       image: movie1,
-      rating: "8.5",
-      duration: "2h 15m",
-      category: "Acción",
-      isNew: false
+      rating: "89%",
+      duration: "2h 08m",
+      category: "Thriller",
+      isNew: false,
+      year: "2023"
     },
     {
       id: "5",
-      title: "Romance Eterno",
+      title: "Memorias Perdidas",
       image: movie2,
-      rating: "7.8",
-      duration: "1h 58m",
-      category: "Romance",
-      isNew: false
+      rating: "94%",
+      duration: "1h 45m",
+      category: "Drama",
+      isNew: false,
+      year: "2024"
+    },
+    {
+      id: "6",
+      title: "Guerra de Estrellas",
+      image: movie3,
+      rating: "96%",
+      duration: "2h 25m",
+      category: "Aventura",
+      isNew: true,
+      year: "2024"
     }
   ];
 
-  const newReleases = [
-    {
-      id: "6",
-      title: "Futuro Distópico",
-      image: movie3,
-      rating: "9.1",
-      duration: "2h 32m",
-      category: "Sci-Fi",
-      isNew: true
-    },
+  const netflixOriginals = [
     {
       id: "7",
-      title: "Acción Extrema",
+      title: "Stranger Things 5",
       image: movie1,
-      rating: "8.5",
-      duration: "2h 15m",
-      category: "Acción",
-      isNew: true
+      rating: "97%",
+      duration: "55 min",
+      category: "Sci-Fi",
+      isNew: true,
+      year: "2024",
+      isOriginal: true
     },
     {
       id: "8",
-      title: "Romance Eterno",
+      title: "La Casa de Papel: Berlín",
       image: movie2,
-      rating: "7.8",
-      duration: "1h 58m",
-      category: "Romance",
-      isNew: true
+      rating: "93%",
+      duration: "50 min",
+      category: "Drama",
+      isNew: true,
+      year: "2024",
+      isOriginal: true
     },
     {
       id: "9",
-      title: "Futuro Distópico",
+      title: "The Crown: Temporada Final",
       image: movie3,
-      rating: "9.1",
-      duration: "2h 32m",
-      category: "Sci-Fi",
-      isNew: true
+      rating: "91%",
+      duration: "60 min",
+      category: "Drama",
+      isNew: true,
+      year: "2024",
+      isOriginal: true
+    },
+    {
+      id: "10",
+      title: "Dark Crystal: Resurrección",
+      image: movie1,
+      rating: "88%",
+      duration: "45 min",
+      category: "Fantasía",
+      isNew: true,
+      year: "2024",
+      isOriginal: true
     }
   ];
 
-  const popularSeries = [
-    {
-      id: "10",
-      title: "Romance Eterno",
-      image: movie2,
-      rating: "8.9",
-      duration: "45 min",
-      category: "Drama",
-      isNew: false
+  const topTenToday = [
+    { id: "t1", title: "El Último Guardián", image: movie1, rank: 1, category: "Acción" },
+    { id: "t2", title: "Neo Tokyo 2099", image: movie3, rank: 2, category: "Sci-Fi" },
+    { id: "t3", title: "Corazones en París", image: movie2, rank: 3, category: "Romance" },
+    { id: "t4", title: "La Conspiración", image: movie1, rank: 4, category: "Thriller" },
+    { id: "t5", title: "Memorias Perdidas", image: movie2, rank: 5, category: "Drama" },
+    { id: "t6", title: "Guerra de Estrellas", image: movie3, rank: 6, category: "Aventura" },
+    { id: "t7", title: "Stranger Things 5", image: movie1, rank: 7, category: "Sci-Fi" },
+    { id: "t8", title: "La Casa de Papel: Berlín", image: movie2, rank: 8, category: "Drama" },
+    { id: "t9", title: "The Crown: Temporada Final", image: movie3, rank: 9, category: "Drama" },
+    { id: "t10", title: "Dark Crystal: Resurrección", image: movie1, rank: 10, category: "Fantasía" }
+  ];
+
+  const continueWatching = [
+    { 
+      id: "c1", 
+      title: "Breaking Bad", 
+      image: movie1, 
+      progress: 75, 
+      episode: "T5 E14", 
+      duration: "47 min",
+      timeLeft: "12 min restantes"
     },
+    { 
+      id: "c2", 
+      title: "The Office", 
+      image: movie2, 
+      progress: 30, 
+      episode: "T2 E8", 
+      duration: "22 min",
+      timeLeft: "15 min restantes"
+    },
+    { 
+      id: "c3", 
+      title: "Narcos", 
+      image: movie3, 
+      progress: 90, 
+      episode: "T1 E10", 
+      duration: "58 min",
+      timeLeft: "6 min restantes"
+    },
+    { 
+      id: "c4", 
+      title: "Ozark", 
+      image: movie1, 
+      progress: 45, 
+      episode: "T3 E5", 
+      duration: "62 min",
+      timeLeft: "34 min restantes"
+    }
+  ];
+
+  const actionMovies = [
     {
-      id: "11",
-      title: "Acción Extrema",
+      id: "a1",
+      title: "John Wick: Capítulo 5",
       image: movie1,
-      rating: "8.5",
-      duration: "50 min",
+      rating: "94%",
+      duration: "2h 18m",
       category: "Acción",
-      isNew: false
+      isNew: true,
+      year: "2024"
     },
     {
-      id: "12",
-      title: "Futuro Distópico",
+      id: "a2",
+      title: "Mad Max: Furiosa",
+      image: movie2,
+      rating: "89%",
+      duration: "2h 28m",
+      category: "Acción",
+      isNew: false,
+      year: "2024"
+    },
+    {
+      id: "a3",
+      title: "Mission Impossible 8",
       image: movie3,
-      rating: "9.1",
-      duration: "42 min",
-      category: "Sci-Fi",
-      isNew: false
+      rating: "92%",
+      duration: "2h 35m",
+      category: "Acción",
+      isNew: true,
+      year: "2024"
+    }
+  ];
+
+  const comedySpecials = [
+    {
+      id: "cs1",
+      title: "Dave Chappelle: The Dreamer",
+      image: movie2,
+      rating: "87%",
+      duration: "72 min",
+      category: "Comedia",
+      isNew: true,
+      year: "2024"
+    },
+    {
+      id: "cs2",
+      title: "Kevin Hart: Reality Check",
+      image: movie1,
+      rating: "84%",
+      duration: "68 min",
+      category: "Comedia",
+      isNew: false,
+      year: "2023"
+    },
+    {
+      id: "cs3",
+      title: "Amy Schumer: Emergency Contact",
+      image: movie3,
+      rating: "81%",
+      duration: "58 min",
+      category: "Comedia",
+      isNew: true,
+      year: "2024"
     }
   ];
 
@@ -135,23 +248,45 @@ const Index = () => {
       <HeroSection />
 
       {/* Content Sections */}
-      <div className="space-y-12 pb-16">
+      <div className="space-y-8 pb-16">
+        {/* Continue Watching - Solo aparece si hay contenido */}
+        <ContinueWatchingRow 
+          title="Continuar viendo"
+          items={continueWatching}
+        />
+
+        {/* Top 10 Today */}
+        <TopTenRow 
+          title="Top 10 en México hoy"
+          items={topTenToday}
+        />
+
+        {/* Trending */}
         <ContentRow
-          title="Tendencias de la semana"
+          title="Tendencias ahora"
           subtitle="Lo más visto en WatchHub"
           items={trendingMovies}
         />
 
+        {/* Netflix Originals */}
         <ContentRow
-          title="Nuevos lanzamientos"
-          subtitle="Estrenos exclusivos"
-          items={newReleases}
+          title="Originales de WatchHub"
+          subtitle="Contenido exclusivo de nuestra plataforma"
+          items={netflixOriginals}
         />
 
+        {/* Action Movies */}
         <ContentRow
-          title="Series populares"
-          subtitle="Las series más aclamadas"
-          items={popularSeries}
+          title="Películas de acción explosivas"
+          subtitle="Adrenalina y aventura sin límites"
+          items={actionMovies}
+        />
+
+        {/* Comedy Specials */}
+        <ContentRow
+          title="Especiales de comedia"
+          subtitle="Los mejores comediantes del mundo"
+          items={comedySpecials}
         />
 
         {/* Call to Action Section */}
