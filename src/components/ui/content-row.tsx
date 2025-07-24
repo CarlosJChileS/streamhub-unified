@@ -3,21 +3,26 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
+interface ContentItem {
+  id: string;
+  title: string;
+  image: string;
+  rating?: string;
+  duration?: string;
+  category?: string;
+  isNew?: boolean;
+  isOriginal?: boolean;
+  year?: string;
+}
+
 interface ContentRowProps {
   title: string;
   subtitle?: string;
-  items: Array<{
-    id: string;
-    title: string;
-    image: string;
-    rating?: string;
-    duration?: string;
-    category?: string;
-    isNew?: boolean;
-  }>;
+  items: ContentItem[];
+  onItemClick?: (item: ContentItem) => void;
 }
 
-export function ContentRow({ title, subtitle, items }: ContentRowProps) {
+export function ContentRow({ title, subtitle, items, onItemClick }: ContentRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -74,7 +79,7 @@ export function ContentRow({ title, subtitle, items }: ContentRowProps) {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {items.map((item) => (
-              <div key={item.id} className="flex-none w-48 lg:w-56">
+              <div key={item.id} className="flex-none w-48 lg:w-52">
                 <ContentCard
                   title={item.title}
                   image={item.image}
@@ -82,6 +87,9 @@ export function ContentRow({ title, subtitle, items }: ContentRowProps) {
                   duration={item.duration}
                   category={item.category}
                   isNew={item.isNew}
+                  isOriginal={item.isOriginal}
+                  year={item.year}
+                  onClick={() => onItemClick?.(item)}
                 />
               </div>
             ))}

@@ -3,14 +3,76 @@ import { HeroSection } from "@/components/ui/hero-section";
 import { ContentRow } from "@/components/ui/content-row";
 import { TopTenRow } from "@/components/ui/top-ten-row";
 import { ContinueWatchingRow } from "@/components/ui/continue-watching-row";
+import { ContentDetailModal } from "@/components/ui/content-detail-modal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Play, TrendingUp, Award, Clock } from "lucide-react";
+import { useState } from "react";
 import movie1 from "@/assets/movie-1.jpg";
 import movie2 from "@/assets/movie-2.jpg";
 import movie3 from "@/assets/movie-3.jpg";
 
 const Index = () => {
+  const [selectedContent, setSelectedContent] = useState<any>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  const handleContentClick = (content: any) => {
+    const detailContent = {
+      ...content,
+      description: getContentDescription(content.title),
+      cast: getContentCast(content.title),
+      director: getContentDirector(content.title),
+      episodes: content.category === "Serie" ? getEpisodes(content.title) : undefined
+    };
+    setSelectedContent(detailContent);
+    setIsDetailModalOpen(true);
+  };
+
+  const getContentDescription = (title: string) => {
+    const descriptions: { [key: string]: string } = {
+      "El Último Guardián": "Un épico thriller de acción que sigue a un antiguo soldado que debe proteger a una misteriosa joven con poderes sobrenaturales de una organización secreta que busca explotar sus habilidades.",
+      "Corazones en París": "Una emotiva historia de amor que se desarrolla en las pintorescas calles de París, donde dos almas solitarias encuentran el amor verdadero en los lugares más inesperados.",
+      "Neo Tokyo 2099": "En un futuro distópico, un detective cibernético debe desentrañar una conspiración que amenaza con destruir la última ciudad habitada de la Tierra.",
+      "Stranger Things 5": "Los chicos de Hawkins enfrentan su mayor desafío cuando el Upside Down amenaza con consumir nuestro mundo para siempre.",
+      "Breaking Bad": "Un profesor de química de secundaria diagnosticado con cáncer pulmonar inoperable recurre a fabricar y vender metanfetamina para asegurar el futuro financiero de su familia."
+    };
+    return descriptions[title] || "Una experiencia cinematográfica única que te mantendrá al borde de tu asiento.";
+  };
+
+  const getContentCast = (title: string) => {
+    const cast: { [key: string]: string[] } = {
+      "El Último Guardián": ["Ryan Gosling", "Scarlett Johansson", "Oscar Isaac"],
+      "Corazones en París": ["Emma Stone", "Timothée Chalamet", "Marion Cotillard"],
+      "Neo Tokyo 2099": ["John Cho", "Rinko Kikuchi", "Brian Cox"],
+      "Stranger Things 5": ["Millie Bobby Brown", "Finn Wolfhard", "David Harbour"],
+      "Breaking Bad": ["Bryan Cranston", "Aaron Paul", "Anna Gunn"]
+    };
+    return cast[title] || ["Actor Principal", "Actor Secundario", "Actor de Reparto"];
+  };
+
+  const getContentDirector = (title: string) => {
+    const directors: { [key: string]: string } = {
+      "El Último Guardián": "Denis Villeneuve",
+      "Corazones en París": "Céline Sciamma",
+      "Neo Tokyo 2099": "The Wachowskis",
+      "Stranger Things 5": "The Duffer Brothers",
+      "Breaking Bad": "Vince Gilligan"
+    };
+    return directors[title] || "Director Reconocido";
+  };
+
+  const getEpisodes = (title: string) => {
+    if (title === "Breaking Bad") {
+      return [
+        { id: "e1", title: "Pilot", duration: "58 min", image: movie1 },
+        { id: "e2", title: "Cat's in the Bag...", duration: "48 min", image: movie2 },
+        { id: "e3", title: "...And the Bag's in the River", duration: "48 min", image: movie3 },
+        { id: "e4", title: "Cancer Man", duration: "48 min", image: movie1 },
+        { id: "e5", title: "Gray Matter", duration: "48 min", image: movie2 }
+      ];
+    }
+    return [];
+  };
   // Sample content data
   const trendingMovies = [
     {
@@ -266,6 +328,7 @@ const Index = () => {
           title="Tendencias ahora"
           subtitle="Lo más visto en WatchHub"
           items={trendingMovies}
+          onItemClick={handleContentClick}
         />
 
         {/* Netflix Originals */}
@@ -273,6 +336,7 @@ const Index = () => {
           title="Originales de WatchHub"
           subtitle="Contenido exclusivo de nuestra plataforma"
           items={netflixOriginals}
+          onItemClick={handleContentClick}
         />
 
         {/* Action Movies */}
@@ -280,6 +344,7 @@ const Index = () => {
           title="Películas de acción explosivas"
           subtitle="Adrenalina y aventura sin límites"
           items={actionMovies}
+          onItemClick={handleContentClick}
         />
 
         {/* Comedy Specials */}
@@ -287,6 +352,7 @@ const Index = () => {
           title="Especiales de comedia"
           subtitle="Los mejores comediantes del mundo"
           items={comedySpecials}
+          onItemClick={handleContentClick}
         />
 
         {/* Call to Action Section */}
@@ -339,6 +405,15 @@ const Index = () => {
           </div>
         </section>
       </div>
+
+      {/* Content Detail Modal */}
+      {selectedContent && (
+        <ContentDetailModal
+          isOpen={isDetailModalOpen}
+          onClose={() => setIsDetailModalOpen(false)}
+          content={selectedContent}
+        />
+      )}
 
       {/* Footer */}
       <footer className="border-t border-border bg-card">

@@ -14,6 +14,7 @@ interface ContentCardProps {
   isOriginal?: boolean;
   year?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export function ContentCard({ 
@@ -25,13 +26,17 @@ export function ContentCard({
   isNew,
   isOriginal,
   year,
-  className 
+  className,
+  onClick 
 }: ContentCardProps) {
   return (
-    <Card className={cn(
-      "group relative overflow-hidden border-0 bg-card transition-all duration-300 hover:scale-105 hover:shadow-card-hover",
-      className
-    )}>
+    <Card 
+      className={cn(
+        "group relative overflow-hidden border-0 bg-card transition-all duration-300 hover:scale-105 hover:shadow-card-hover cursor-pointer",
+        className
+      )}
+      onClick={onClick}
+    >
       <div className="relative aspect-[2/3] overflow-hidden">
         <img 
           src={image} 
