@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Play, Plus, ThumbsUp, ThumbsDown, Share, Download, X } from "lucide-react";
 import { useState } from "react";
 import { VideoPlayer } from "./video-player";
+import { RatingSystem } from "./rating-system";
 
 interface ContentDetailModalProps {
   isOpen: boolean;
@@ -165,9 +166,18 @@ export function ContentDetailModal({ isOpen, onClose, content }: ContentDetailMo
               )}
             </div>
 
+            {/* Rating System */}
+            <div className="border-t border-border pt-6">
+              <RatingSystem
+                contentId={content.id}
+                onRatingChange={(rating) => console.log(`Rated ${content.title}: ${rating} stars`)}
+                onLikeChange={(liked) => console.log(`${content.title} liked: ${liked}`)}
+              />
+            </div>
+
             {/* Episodes (if series) */}
             {content.episodes && content.episodes.length > 0 && (
-              <div className="space-y-4">
+              <div className="space-y-4 border-t border-border pt-6">
                 <h3 className="text-xl font-semibold text-foreground">Episodios</h3>
                 <div className="space-y-3">
                   {content.episodes.map((episode, index) => (
