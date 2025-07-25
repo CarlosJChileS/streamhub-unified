@@ -17,8 +17,7 @@ const plans = [
       "Calidad HD (720p)",
       "1 pantalla simultánea",
       "Catálogo completo",
-      "Sin anuncios",
-      "Descargas limitadas"
+      "Sin anuncios"
     ],
     popular: false
   },
@@ -32,7 +31,6 @@ const plans = [
       "2 pantallas simultáneas",
       "Catálogo completo",
       "Sin anuncios",
-      "Descargas ilimitadas",
       "Perfiles familiares"
     ],
     popular: true
@@ -47,7 +45,6 @@ const plans = [
       "4 pantallas simultáneas",
       "Catálogo completo + Exclusivos",
       "Sin anuncios",
-      "Descargas ilimitadas",
       "Perfiles familiares",
       "Audio espacial",
       "Acceso anticipado"
@@ -227,16 +224,10 @@ export default function Subscriptions() {
                     <td className="text-center p-4 text-foreground">4</td>
                   </tr>
                   <tr className="bg-muted/20">
-                    <td className="p-4 text-muted-foreground">Descargas</td>
-                    <td className="text-center p-4 text-foreground">Limitadas</td>
-                    <td className="text-center p-4 text-foreground">Ilimitadas</td>
-                    <td className="text-center p-4 text-foreground">Ilimitadas</td>
-                  </tr>
-                  <tr>
                     <td className="p-4 text-muted-foreground">Perfiles familiares</td>
-                    <td className="text-center p-4 text-muted-foreground">✗</td>
-                    <td className="text-center p-4 text-primary">✓</td>
-                    <td className="text-center p-4 text-primary">✓</td>
+                    <td className="text-center p-4 text-muted-foreground">—</td>
+                    <td className="text-center p-4 text-foreground">✓</td>
+                    <td className="text-center p-4 text-foreground">✓</td>
                   </tr>
                 </tbody>
               </table>

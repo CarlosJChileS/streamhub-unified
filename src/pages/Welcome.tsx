@@ -15,8 +15,8 @@ export default function Welcome() {
     },
     {
       icon: Smartphone,
-      title: "Descarga películas para verlas offline",
-      description: "Guarda fácilmente tus películas favoritas y siempre tendrás algo para ver."
+      title: "Ve en todos tus dispositivos",
+      description: "Disfruta de tus películas favoritas en cualquier lugar y momento."
     },
     {
       icon: Tv,

@@ -82,7 +82,7 @@ export default function AdminSubscriptions() {
       currency: "USD",
       subscribers: 7830,
       revenue: "$46,905",
-      features: ["1080p Full HD", "2 dispositivos", "Catálogo completo", "Descargas"],
+      features: ["1080p Full HD", "2 dispositivos", "Catálogo completo"],
       active: true,
       conversion: "42.5%"
     },

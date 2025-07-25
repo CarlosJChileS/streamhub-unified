@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Plus, ThumbsUp, ThumbsDown, Share, Download, X } from "lucide-react";
+import { Play, Plus, ThumbsUp, ThumbsDown, Share, X } from "lucide-react";
 import { useState } from "react";
 import { VideoPlayer } from "./video-player";
 import { RatingSystem } from "./rating-system";
@@ -101,13 +101,6 @@ export function MovieDetailModal({ isOpen, onClose, content }: MovieDetailModalP
                     className="rounded-full border-white text-white hover:bg-white hover:text-black w-10 h-10 p-0"
                   >
                     <Share className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="rounded-full border-white text-white hover:bg-white hover:text-black w-10 h-10 p-0"
-                  >
-                    <Download className="w-4 h-4" />
                   </Button>
                 </div>
               </div>

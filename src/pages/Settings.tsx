@@ -3,8 +3,7 @@ import {
   User, 
   Bell, 
   Shield, 
-  Palette, 
-  Download, 
+  Palette,
   Smartphone, 
   Globe, 
   CreditCard,
@@ -31,7 +30,6 @@ export default function Settings() {
   const [autoplay, setAutoplay] = useState(true);
   const [subtitles, setSubtitles] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
-  const [autoDownload, setAutoDownload] = useState(false);
   const [childrenMode, setChildrenMode] = useState(false);
   const [dataUsage, setDataUsage] = useState([2]);
 
@@ -59,12 +57,6 @@ export default function Settings() {
       title: "Reproducción",
       icon: Monitor,
       description: "Configuración de video y audio"
-    },
-    {
-      id: "downloads",
-      title: "Descargas",
-      icon: Download,
-      description: "Gestiona tus descargas y almacenamiento"
     },
     {
       id: "devices",
@@ -272,7 +264,7 @@ export default function Settings() {
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                   <Button variant="destructive" className="w-full">
-                    Descargar mis datos
+                    Exportar mis datos
                   </Button>
                 </div>
               </CardContent>
@@ -360,93 +352,6 @@ export default function Settings() {
                         <SelectItem value="none">Sin subtítulos</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Downloads Settings */}
-          <TabsContent value="downloads">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Download className="w-5 h-5" />
-                  Configuración de descargas
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label htmlFor="auto-download">Descarga automática</Label>
-                      <p className="text-sm text-muted-foreground">Descargar episodios siguientes automáticamente</p>
-                    </div>
-                    <Switch
-                      id="auto-download"
-                      checked={autoDownload}
-                      onCheckedChange={setAutoDownload}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label htmlFor="wifi-only">Solo con WiFi</Label>
-                      <p className="text-sm text-muted-foreground">Descargar solo cuando esté conectado a WiFi</p>
-                    </div>
-                    <Switch id="wifi-only" defaultChecked />
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-sm font-medium mb-2 block">Calidad de descarga</Label>
-                    <Select defaultValue="high">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="high">Alta (1080p)</SelectItem>
-                        <SelectItem value="medium">Media (720p)</SelectItem>
-                        <SelectItem value="low">Baja (480p)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label className="text-sm font-medium mb-3 block">
-                      Uso de datos móviles: {dataUsage[0]} GB/mes
-                    </Label>
-                    <Slider
-                      value={dataUsage}
-                      onValueChange={setDataUsage}
-                      min={0}
-                      max={10}
-                      step={0.5}
-                      className="mb-2"
-                    />
-                    <div className="flex justify-between text-sm text-muted-foreground">
-                      <span>0 GB</span>
-                      <span>10 GB</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-muted/50 rounded-lg p-4">
-                  <h4 className="font-medium text-foreground mb-2">Almacenamiento usado</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Descargas</span>
-                      <span>2.1 GB</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Cache</span>
-                      <span>456 MB</span>
-                    </div>
-                    <div className="w-full bg-border rounded-full h-2 mt-3">
-                      <div className="bg-primary h-2 rounded-full" style={{ width: '25%' }}></div>
-                    </div>
-                    <p className="text-xs text-muted-foreground">2.5 GB de 10 GB usados</p>
                   </div>
                 </div>
               </CardContent>
