@@ -14,7 +14,177 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      movie_ratings: {
+        Row: {
+          created_at: string
+          id: string
+          movie_id: string
+          rating: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          movie_id: string
+          rating?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          movie_id?: string
+          rating?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movie_ratings_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movies: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration: number | null
+          featured: boolean | null
+          genre: string[] | null
+          id: string
+          poster_url: string | null
+          rating: number | null
+          release_year: number | null
+          title: string
+          updated_at: string
+          video_url: string | null
+          views: number | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          featured?: boolean | null
+          genre?: string[] | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          release_year?: number | null
+          title: string
+          updated_at?: string
+          video_url?: string | null
+          views?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          featured?: boolean | null
+          genre?: string[] | null
+          id?: string
+          poster_url?: string | null
+          rating?: number | null
+          release_year?: number | null
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+          views?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          subscription_plan: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          subscription_plan?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          subscription_plan?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watch_history: {
+        Row: {
+          id: string
+          movie_id: string
+          progress: number | null
+          user_id: string
+          watched_at: string
+        }
+        Insert: {
+          id?: string
+          movie_id: string
+          progress?: number | null
+          user_id: string
+          watched_at?: string
+        }
+        Update: {
+          id?: string
+          movie_id?: string
+          progress?: number | null
+          user_id?: string
+          watched_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watch_history_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      watchlist: {
+        Row: {
+          added_at: string
+          id: string
+          movie_id: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          movie_id: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          movie_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watchlist_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
