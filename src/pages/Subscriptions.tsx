@@ -1,13 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Star } from "lucide-react";
+import { Check, Star, Loader2 } from "lucide-react";
+import { useSubscription } from "@/contexts/SubscriptionContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const plans = [
   {
-    id: "basic",
+    id: "Basic",
     name: "Plan Básico",
-    price: "$2.99",
+    price: "$7.99",
     description: "Perfecto para empezar",
     features: [
       "Calidad HD (720p)",
@@ -19,9 +23,9 @@ const plans = [
     popular: false
   },
   {
-    id: "standard",
+    id: "Standard",
     name: "Plan Estándar",
-    price: "$5.99",
+    price: "$12.99",
     description: "Ideal para familias",
     features: [
       "Calidad Full HD (1080p)",
@@ -34,9 +38,9 @@ const plans = [
     popular: true
   },
   {
-    id: "premium",
+    id: "Premium",
     name: "Plan Premium",
-    price: "$9.99",
+    price: "$18.99",
     description: "La mejor experiencia",
     features: [
       "Calidad 4K + HDR",
@@ -53,6 +57,47 @@ const plans = [
 ];
 
 export default function Subscriptions() {
+  const { user } = useAuth();
+  const { subscribed, subscriptionTier, createCheckout, openCustomerPortal, checkSubscription } = useSubscription();
+  const { toast } = useToast();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handleSubscribe = async (planId: string) => {
+    if (!user) {
+      toast({
+        title: "Inicia sesión requerida",
+        description: "Debes iniciar sesión para suscribirte",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoadingPlan(planId);
+    try {
+      const checkoutUrl = await createCheckout(planId);
+      window.open(checkoutUrl, '_blank');
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo crear la sesión de pago",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    try {
+      await openCustomerPortal();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo abrir el portal de gestión",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -108,12 +153,38 @@ export default function Subscriptions() {
               </CardContent>
 
               <CardFooter>
-                <Button 
-                  className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'}`}
-                  size="lg"
-                >
-                  {plan.popular ? 'Comenzar ahora' : 'Elegir plan'}
-                </Button>
+                {subscribed && subscriptionTier === plan.id ? (
+                  <div className="w-full space-y-2">
+                    <Badge className="w-full justify-center py-2">
+                      Plan Actual
+                    </Badge>
+                    <Button 
+                      onClick={handleManageSubscription}
+                      variant="outline" 
+                      className="w-full"
+                    >
+                      Gestionar Suscripción
+                    </Button>
+                  </div>
+                ) : (
+                  <Button 
+                    className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'}`}
+                    size="lg"
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={loadingPlan === plan.id}
+                  >
+                    {loadingPlan === plan.id ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Procesando...
+                      </>
+                    ) : subscribed ? (
+                      "Cambiar a este Plan"
+                    ) : (
+                      plan.popular ? 'Comenzar ahora' : 'Elegir plan'
+                    )}
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           ))}
@@ -139,9 +210,9 @@ export default function Subscriptions() {
                 <tbody className="divide-y divide-border">
                   <tr>
                     <td className="p-4 text-muted-foreground">Precio mensual</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$2.99</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$5.99</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$9.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$7.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$12.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$18.99</td>
                   </tr>
                   <tr className="bg-muted/20">
                     <td className="p-4 text-muted-foreground">Calidad de video</td>
