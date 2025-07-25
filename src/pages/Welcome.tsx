@@ -15,13 +15,13 @@ export default function Welcome() {
     },
     {
       icon: Smartphone,
-      title: "Descarga series para verlas offline",
-      description: "Guarda fácilmente tus favoritos y siempre tendrás algo para ver."
+      title: "Descarga películas para verlas offline",
+      description: "Guarda fácilmente tus películas favoritas y siempre tendrás algo para ver."
     },
     {
       icon: Tv,
       title: "Ve donde quieras",
-      description: "Disfruta de películas y series ilimitadas en tu teléfono, tablet, laptop y TV."
+      description: "Disfruta de películas ilimitadas en tu teléfono, tablet, laptop y TV."
     }
   ];
 
@@ -60,7 +60,7 @@ export default function Welcome() {
         {/* Hero Content */}
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Películas y series
+            Películas
             <br />
             <span className="text-primary">ilimitadas</span> y mucho más
           </h1>
@@ -204,7 +204,7 @@ export default function Welcome() {
             {[
               {
                 question: "¿Qué es WatchHub?",
-                answer: "WatchHub es un servicio de streaming que ofrece una amplia variedad de películas, series y documentales premiados en miles de dispositivos conectados a internet."
+                answer: "WatchHub es un servicio de streaming que ofrece una amplia variedad de películas y documentales premiados en miles de dispositivos conectados a internet."
               },
               {
                 question: "¿Cuánto cuesta WatchHub?",
