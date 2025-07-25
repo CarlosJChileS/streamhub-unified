@@ -3,7 +3,7 @@ import { HeroSection } from "@/components/ui/hero-section";
 import { ContentRow } from "@/components/ui/content-row";
 import { TopTenRow } from "@/components/ui/top-ten-row";
 import { ContinueWatchingRow } from "@/components/ui/continue-watching-row";
-import { ContentDetailModal } from "@/components/ui/content-detail-modal";
+import { MovieDetailModal } from "@/components/ui/movie-detail-modal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -51,8 +51,7 @@ const Index = () => {
       ...content,
       description: getContentDescription(content.title),
       cast: getContentCast(content.title),
-      director: getContentDirector(content.title),
-      episodes: undefined
+      director: getContentDirector(content.title)
     };
     setSelectedContent(detailContent);
     setIsDetailModalOpen(true);
@@ -345,9 +344,9 @@ const Index = () => {
         </section>
       </div>
 
-      {/* Content Detail Modal */}
+      {/* Movie Detail Modal */}
       {selectedContent && (
-        <ContentDetailModal
+        <MovieDetailModal
           isOpen={isDetailModalOpen}
           onClose={() => setIsDetailModalOpen(false)}
           content={selectedContent}

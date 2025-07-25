@@ -37,7 +37,7 @@ export function HeroSection() {
           <div className="mb-6 sm:mb-8">
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
               <Badge className="bg-red-600 text-white hover:bg-red-700 text-xs sm:text-sm">
-                SERIE ORIGINAL
+                PELÍCULA ORIGINAL
               </Badge>
               <Badge variant="outline" className="border-white text-white text-xs sm:text-sm">
                 2024
@@ -48,20 +48,20 @@ export function HeroSection() {
             </div>
             
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
-              The Crown Chronicles
+              El Último Guardián
             </h2>
             
             <p className="text-sm sm:text-base lg:text-lg text-gray-300 mb-4 sm:mb-6 leading-relaxed">
-              Una épica serie de fantasía que sigue las aventuras de un reino en guerra. 
-              Dragones, magia y batallas épicas te esperan en esta producción exclusiva de WatchHub.
+              Un épico thriller de acción que sigue a un antiguo soldado que debe proteger a una misteriosa 
+              joven con poderes sobrenaturales de una organización secreta que busca explotar sus habilidades.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8">
-              <span>8 episodios</span>
+              <span>2h 15m</span>
               <span className="hidden sm:inline">•</span>
-              <span>45 min c/u</span>
+              <span>Acción, Thriller</span>
               <span className="hidden sm:inline">•</span>
-              <span>Fantasía, Drama</span>
+              <span>4K Ultra HD</span>
             </div>
           </div>
 

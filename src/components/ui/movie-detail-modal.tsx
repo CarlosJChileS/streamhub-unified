@@ -6,7 +6,7 @@ import { useState } from "react";
 import { VideoPlayer } from "./video-player";
 import { RatingSystem } from "./rating-system";
 
-interface ContentDetailModalProps {
+interface MovieDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   content: {
@@ -22,19 +22,16 @@ interface ContentDetailModalProps {
     director?: string;
     isNew?: boolean;
     isOriginal?: boolean;
-    episodes?: { id: string; title: string; duration: string; image: string }[];
   };
 }
 
-export function ContentDetailModal({ isOpen, onClose, content }: ContentDetailModalProps) {
+export function MovieDetailModal({ isOpen, onClose, content }: MovieDetailModalProps) {
   const [showPlayer, setShowPlayer] = useState(false);
-  const [selectedEpisode, setSelectedEpisode] = useState<string | null>(null);
 
   if (showPlayer) {
     return (
       <VideoPlayer
         title={content.title}
-        episode={selectedEpisode || undefined}
         onClose={() => setShowPlayer(false)}
       />
     );
@@ -175,42 +172,6 @@ export function ContentDetailModal({ isOpen, onClose, content }: ContentDetailMo
               />
             </div>
 
-            {/* Episodes (if series) */}
-            {content.episodes && content.episodes.length > 0 && (
-              <div className="space-y-4 border-t border-border pt-6">
-                <h3 className="text-xl font-semibold text-foreground">Episodios</h3>
-                <div className="space-y-3">
-                  {content.episodes.map((episode, index) => (
-                    <div 
-                      key={episode.id} 
-                      className="flex items-center gap-4 p-3 rounded-lg hover:bg-card transition-colors cursor-pointer group"
-                      onClick={() => {
-                        setSelectedEpisode(`T1 E${index + 1}: ${episode.title}`);
-                        setShowPlayer(true);
-                      }}
-                    >
-                      <div className="flex-shrink-0 text-lg font-semibold text-muted-foreground w-8">
-                        {index + 1}
-                      </div>
-                      <div className="relative flex-shrink-0 w-32 aspect-video rounded overflow-hidden">
-                        <img 
-                          src={episode.image} 
-                          alt={episode.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Play className="w-6 h-6 text-white" />
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-foreground line-clamp-1">{episode.title}</h4>
-                        <p className="text-sm text-muted-foreground">{episode.duration}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </DialogContent>

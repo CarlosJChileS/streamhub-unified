@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { ContentCard } from "@/components/ui/content-card";
-import { ContentDetailModal } from "@/components/ui/content-detail-modal";
+import { MovieDetailModal } from "@/components/ui/movie-detail-modal";
 import { Navbar } from "@/components/layout/navbar";
 import movie1 from "@/assets/movie-1.jpg";
 import movie2 from "@/assets/movie-2.jpg";
@@ -350,9 +350,9 @@ export default function Search() {
         </Tabs>
       </div>
 
-      {/* Content Detail Modal */}
+      {/* Movie Detail Modal */}
       {selectedContent && (
-        <ContentDetailModal
+        <MovieDetailModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           content={selectedContent}
