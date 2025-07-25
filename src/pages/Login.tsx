@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export default function Login() {
@@ -12,11 +13,47 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica de autenticación
-    console.log("Login attempt:", { email, password, rememberMe });
+    setIsLoading(true);
+
+    // Simulate login process
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Demo login validation
+      if (email === "demo@watchhub.com" && password === "demo123") {
+        toast({
+          title: "¡Bienvenido a WatchHub!",
+          description: "Has iniciado sesión exitosamente.",
+        });
+        navigate("/home");
+      } else if (email === "admin@watchhub.com" && password === "admin123") {
+        toast({
+          title: "Acceso administrativo",
+          description: "Redirigiendo al panel de administración...",
+        });
+        navigate("/admin/dashboard");
+      } else {
+        toast({
+          title: "Error de autenticación",
+          description: "Email o contraseña incorrectos. Usa demo@watchhub.com / demo123",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error de conexión",
+        description: "No se pudo conectar con el servidor.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -111,9 +148,17 @@ export default function Login() {
 
             <Button 
               type="submit" 
-              className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3"
+              disabled={isLoading}
+              className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 disabled:opacity-50"
             >
-              Iniciar sesión
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Iniciando sesión...
+                </>
+              ) : (
+                "Iniciar sesión"
+              )}
             </Button>
           </form>
 

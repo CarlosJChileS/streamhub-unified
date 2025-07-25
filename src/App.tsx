@@ -21,6 +21,7 @@ import AdminAnalytics from "./pages/AdminAnalytics";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
 import { BackToTop } from "./components/ui/back-to-top";
+import { ScrollProgress } from "./components/ui/scroll-progress";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <ScrollProgress />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Welcome />} />

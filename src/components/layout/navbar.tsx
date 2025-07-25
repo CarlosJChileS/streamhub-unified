@@ -9,7 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, Bell, User, Settings, LogOut, Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Search, Bell, User, Settings, LogOut, Menu, X, Crown, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -76,9 +77,15 @@ export function Navbar() {
                 </Button>
               </Link>
 
+              {/* Theme toggle */}
+              <ThemeToggle />
+
               {/* Notifications */}
-              <Button variant="ghost" size="sm" className="text-white">
+              <Button variant="ghost" size="sm" className="text-white relative">
                 <Bell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  3
+                </span>
               </Button>
 
               {/* User menu */}
@@ -93,13 +100,17 @@ export function Navbar() {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-popover border-border" align="end" forceMount>
+                <DropdownMenuContent className="w-64 bg-popover border-border shadow-lg" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">María García</p>
                       <p className="text-xs leading-none text-muted-foreground">
                         maria@ejemplo.com
                       </p>
+                      <div className="flex items-center mt-2">
+                        <Crown className="w-3 h-3 text-premium-gold mr-1" />
+                        <span className="text-xs text-premium-gold font-medium">Plan Premium</span>
+                      </div>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -110,13 +121,19 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
+                    <Link to="/subscriptions" className="flex items-center">
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Suscripción</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link to="/settings" className="flex items-center">
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Configuración</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive focus:text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Cerrar sesión</span>
                   </DropdownMenuItem>
