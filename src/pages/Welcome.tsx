@@ -26,9 +26,9 @@ export default function Welcome() {
   ];
 
   const plans = [
-    { name: "Básico", price: "$99", quality: "720p", devices: "1" },
-    { name: "Estándar", price: "$149", quality: "1080p", devices: "2" },
-    { name: "Premium", price: "$199", quality: "4K+HDR", devices: "4" }
+    { name: "Básico", price: "$2", quality: "720p", devices: "1" },
+    { name: "Estándar", price: "$5", quality: "1080p", devices: "2" },
+    { name: "Premium", price: "$9", quality: "4K+HDR", devices: "4" }
   ];
 
   return (

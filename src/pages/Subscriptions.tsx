@@ -7,7 +7,7 @@ const plans = [
   {
     id: "basic",
     name: "Plan Básico",
-    price: "$8.99",
+    price: "$2.99",
     description: "Perfecto para empezar",
     features: [
       "Calidad HD (720p)",
@@ -21,7 +21,7 @@ const plans = [
   {
     id: "standard",
     name: "Plan Estándar",
-    price: "$13.99",
+    price: "$5.99",
     description: "Ideal para familias",
     features: [
       "Calidad Full HD (1080p)",
@@ -36,7 +36,7 @@ const plans = [
   {
     id: "premium",
     name: "Plan Premium",
-    price: "$17.99",
+    price: "$9.99",
     description: "La mejor experiencia",
     features: [
       "Calidad 4K + HDR",
@@ -139,9 +139,9 @@ export default function Subscriptions() {
                 <tbody className="divide-y divide-border">
                   <tr>
                     <td className="p-4 text-muted-foreground">Precio mensual</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$8.99</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$13.99</td>
-                    <td className="text-center p-4 text-foreground font-semibold">$17.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$2.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$5.99</td>
+                    <td className="text-center p-4 text-foreground font-semibold">$9.99</td>
                   </tr>
                   <tr className="bg-muted/20">
                     <td className="p-4 text-muted-foreground">Calidad de video</td>

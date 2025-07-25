@@ -596,7 +596,7 @@ export default function Settings() {
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="text-lg font-semibold text-foreground">Plan Premium</h3>
-                      <p className="text-muted-foreground">$199 MXN/mes</p>
+                      <p className="text-muted-foreground">$9 USD/mes</p>
                     </div>
                     <Badge variant="default">Activo</Badge>
                   </div>
