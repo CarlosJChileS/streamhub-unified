@@ -10,6 +10,9 @@ import Register from "./pages/Register";
 import Categories from "./pages/Categories";
 import Subscriptions from "./pages/Subscriptions";
 import Profiles from "./pages/Profiles";
+import Search from "./pages/Search";
+import MyList from "./pages/MyList";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +31,9 @@ const App = () => (
           <Route path="/categories" element={<Categories />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/profiles" element={<Profiles />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/my-list" element={<MyList />} />
+          <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
