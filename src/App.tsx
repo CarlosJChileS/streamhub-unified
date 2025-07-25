@@ -18,7 +18,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminContent from "./pages/AdminContent";
 import AdminSubscriptions from "./pages/AdminSubscriptions";
 import AdminAnalytics from "./pages/AdminAnalytics";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
+import { BackToTop } from "./components/ui/back-to-top";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,7 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/my-list" element={<MyList />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -48,6 +51,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <BackToTop />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
