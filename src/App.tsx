@@ -13,6 +13,11 @@ import Profiles from "./pages/Profiles";
 import Search from "./pages/Search";
 import MyList from "./pages/MyList";
 import Settings from "./pages/Settings";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminContent from "./pages/AdminContent";
+import AdminSubscriptions from "./pages/AdminSubscriptions";
+import AdminAnalytics from "./pages/AdminAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +39,12 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/my-list" element={<MyList />} />
           <Route path="/settings" element={<Settings />} />
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/content" element={<AdminContent />} />
+          <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
