@@ -22,7 +22,7 @@ const Index = () => {
       description: getContentDescription(content.title),
       cast: getContentCast(content.title),
       director: getContentDirector(content.title),
-      episodes: content.category === "Serie" ? getEpisodes(content.title) : undefined
+      episodes: undefined
     };
     setSelectedContent(detailContent);
     setIsDetailModalOpen(true);
@@ -33,8 +33,8 @@ const Index = () => {
       "El Último Guardián": "Un épico thriller de acción que sigue a un antiguo soldado que debe proteger a una misteriosa joven con poderes sobrenaturales de una organización secreta que busca explotar sus habilidades.",
       "Corazones en París": "Una emotiva historia de amor que se desarrolla en las pintorescas calles de París, donde dos almas solitarias encuentran el amor verdadero en los lugares más inesperados.",
       "Neo Tokyo 2099": "En un futuro distópico, un detective cibernético debe desentrañar una conspiración que amenaza con destruir la última ciudad habitada de la Tierra.",
-      "Stranger Things 5": "Los chicos de Hawkins enfrentan su mayor desafío cuando el Upside Down amenaza con consumir nuestro mundo para siempre.",
-      "Breaking Bad": "Un profesor de química de secundaria diagnosticado con cáncer pulmonar inoperable recurre a fabricar y vender metanfetamina para asegurar el futuro financiero de su familia."
+      "John Wick: Capítulo 5": "El legendario asesino regresa para una última misión que pondrá a prueba todas sus habilidades y cambiará su destino para siempre.",
+      "Mad Max: Furiosa": "En un mundo post-apocalíptico, una guerrera feroz lucha por sobrevivir mientras busca venganza en las tierras baldías."
     };
     return descriptions[title] || "Una experiencia cinematográfica única que te mantendrá al borde de tu asiento.";
   };
@@ -44,8 +44,8 @@ const Index = () => {
       "El Último Guardián": ["Ryan Gosling", "Scarlett Johansson", "Oscar Isaac"],
       "Corazones en París": ["Emma Stone", "Timothée Chalamet", "Marion Cotillard"],
       "Neo Tokyo 2099": ["John Cho", "Rinko Kikuchi", "Brian Cox"],
-      "Stranger Things 5": ["Millie Bobby Brown", "Finn Wolfhard", "David Harbour"],
-      "Breaking Bad": ["Bryan Cranston", "Aaron Paul", "Anna Gunn"]
+      "John Wick: Capítulo 5": ["Keanu Reeves", "Laurence Fishburne", "Ian McShane"],
+      "Mad Max: Furiosa": ["Anya Taylor-Joy", "Chris Hemsworth", "Tom Burke"]
     };
     return cast[title] || ["Actor Principal", "Actor Secundario", "Actor de Reparto"];
   };
@@ -55,24 +55,12 @@ const Index = () => {
       "El Último Guardián": "Denis Villeneuve",
       "Corazones en París": "Céline Sciamma",
       "Neo Tokyo 2099": "The Wachowskis",
-      "Stranger Things 5": "The Duffer Brothers",
-      "Breaking Bad": "Vince Gilligan"
+      "John Wick: Capítulo 5": "Chad Stahelski",
+      "Mad Max: Furiosa": "George Miller"
     };
     return directors[title] || "Director Reconocido";
   };
 
-  const getEpisodes = (title: string) => {
-    if (title === "Breaking Bad") {
-      return [
-        { id: "e1", title: "Pilot", duration: "58 min", image: movie1 },
-        { id: "e2", title: "Cat's in the Bag...", duration: "48 min", image: movie2 },
-        { id: "e3", title: "...And the Bag's in the River", duration: "48 min", image: movie3 },
-        { id: "e4", title: "Cancer Man", duration: "48 min", image: movie1 },
-        { id: "e5", title: "Gray Matter", duration: "48 min", image: movie2 }
-      ];
-    }
-    return [];
-  };
   // Sample content data
   const trendingMovies = [
     {
@@ -140,10 +128,10 @@ const Index = () => {
   const netflixOriginals = [
     {
       id: "7",
-      title: "Stranger Things 5",
+      title: "El Proyecto Atlas",
       image: movie1,
       rating: "97%",
-      duration: "55 min",
+      duration: "2h 15m",
       category: "Sci-Fi",
       isNew: true,
       year: "2024",
@@ -151,21 +139,21 @@ const Index = () => {
     },
     {
       id: "8",
-      title: "La Casa de Papel: Berlín",
+      title: "Contra el Tiempo",
       image: movie2,
       rating: "93%",
-      duration: "50 min",
-      category: "Drama",
+      duration: "1h 58m",
+      category: "Thriller",
       isNew: true,
       year: "2024",
       isOriginal: true
     },
     {
       id: "9",
-      title: "The Crown: Temporada Final",
+      title: "Renacer",
       image: movie3,
       rating: "91%",
-      duration: "60 min",
+      duration: "2h 12m",
       category: "Drama",
       isNew: true,
       year: "2024",
@@ -173,11 +161,11 @@ const Index = () => {
     },
     {
       id: "10",
-      title: "Dark Crystal: Resurrección",
+      title: "Fuego Cruzado",
       image: movie1,
       rating: "88%",
-      duration: "45 min",
-      category: "Fantasía",
+      duration: "2h 05m",
+      category: "Acción",
       isNew: true,
       year: "2024",
       isOriginal: true
@@ -191,48 +179,48 @@ const Index = () => {
     { id: "t4", title: "La Conspiración", image: movie1, rank: 4, category: "Thriller" },
     { id: "t5", title: "Memorias Perdidas", image: movie2, rank: 5, category: "Drama" },
     { id: "t6", title: "Guerra de Estrellas", image: movie3, rank: 6, category: "Aventura" },
-    { id: "t7", title: "Stranger Things 5", image: movie1, rank: 7, category: "Sci-Fi" },
-    { id: "t8", title: "La Casa de Papel: Berlín", image: movie2, rank: 8, category: "Drama" },
-    { id: "t9", title: "The Crown: Temporada Final", image: movie3, rank: 9, category: "Drama" },
-    { id: "t10", title: "Dark Crystal: Resurrección", image: movie1, rank: 10, category: "Fantasía" }
+    { id: "t7", title: "El Proyecto Atlas", image: movie1, rank: 7, category: "Sci-Fi" },
+    { id: "t8", title: "Contra el Tiempo", image: movie2, rank: 8, category: "Thriller" },
+    { id: "t9", title: "Renacer", image: movie3, rank: 9, category: "Drama" },
+    { id: "t10", title: "Fuego Cruzado", image: movie1, rank: 10, category: "Acción" }
   ];
 
   const continueWatching = [
     { 
       id: "c1", 
-      title: "Breaking Bad", 
+      title: "El Último Guardián", 
       image: movie1, 
       progress: 75, 
-      episode: "T5 E14", 
-      duration: "47 min",
-      timeLeft: "12 min restantes"
+      episode: "", 
+      duration: "2h 15m",
+      timeLeft: "32 min restantes"
     },
     { 
       id: "c2", 
-      title: "The Office", 
+      title: "John Wick: Capítulo 5", 
       image: movie2, 
       progress: 30, 
-      episode: "T2 E8", 
-      duration: "22 min",
-      timeLeft: "15 min restantes"
+      episode: "", 
+      duration: "2h 18m",
+      timeLeft: "1h 35m restantes"
     },
     { 
       id: "c3", 
-      title: "Narcos", 
+      title: "Mad Max: Furiosa", 
       image: movie3, 
       progress: 90, 
-      episode: "T1 E10", 
-      duration: "58 min",
-      timeLeft: "6 min restantes"
+      episode: "", 
+      duration: "2h 28m",
+      timeLeft: "15 min restantes"
     },
     { 
       id: "c4", 
-      title: "Ozark", 
+      title: "Neo Tokyo 2099", 
       image: movie1, 
       progress: 45, 
-      episode: "T3 E5", 
-      duration: "62 min",
-      timeLeft: "34 min restantes"
+      episode: "", 
+      duration: "2h 32m",
+      timeLeft: "1h 24m restantes"
     }
   ];
 
@@ -266,39 +254,69 @@ const Index = () => {
       category: "Acción",
       isNew: true,
       year: "2024"
-    }
-  ];
-
-  const comedySpecials = [
+    },
     {
-      id: "cs1",
-      title: "Dave Chappelle: The Dreamer",
-      image: movie2,
+      id: "a4",
+      title: "Fast X: The Final Chapter",
+      image: movie1,
       rating: "87%",
-      duration: "72 min",
-      category: "Comedia",
+      duration: "2h 42m",
+      category: "Acción",
       isNew: true,
       year: "2024"
     },
     {
-      id: "cs2",
-      title: "Kevin Hart: Reality Check",
-      image: movie1,
-      rating: "84%",
-      duration: "68 min",
-      category: "Comedia",
+      id: "a5",
+      title: "Expendables 5",
+      image: movie2,
+      rating: "85%",
+      duration: "2h 08m",
+      category: "Acción",
+      isNew: false,
+      year: "2024"
+    }
+  ];
+
+  const dramaMovies = [
+    {
+      id: "d1",
+      title: "Oppenheimer",
+      image: movie2,
+      rating: "94%",
+      duration: "3h 00m",
+      category: "Drama",
       isNew: false,
       year: "2023"
     },
     {
-      id: "cs3",
-      title: "Amy Schumer: Emergency Contact",
+      id: "d2",
+      title: "Killers of the Flower Moon",
+      image: movie1,
+      rating: "92%",
+      duration: "3h 26m",
+      category: "Drama",
+      isNew: false,
+      year: "2023"
+    },
+    {
+      id: "d3",
+      title: "The Zone of Interest",
       image: movie3,
-      rating: "81%",
-      duration: "58 min",
-      category: "Comedia",
+      rating: "89%",
+      duration: "1h 45m",
+      category: "Drama",
       isNew: true,
       year: "2024"
+    },
+    {
+      id: "d4",
+      title: "Past Lives",
+      image: movie2,
+      rating: "95%",
+      duration: "1h 45m",
+      category: "Drama",
+      isNew: false,
+      year: "2023"
     }
   ];
 
@@ -347,11 +365,11 @@ const Index = () => {
           onItemClick={handleContentClick}
         />
 
-        {/* Comedy Specials */}
+        {/* Drama Movies */}
         <ContentRow
-          title="Especiales de comedia"
-          subtitle="Los mejores comediantes del mundo"
-          items={comedySpecials}
+          title="Dramas aclamados"
+          subtitle="Historias que marcan la diferencia"
+          items={dramaMovies}
           onItemClick={handleContentClick}
         />
 
@@ -373,7 +391,7 @@ const Index = () => {
               
               <p className="text-lg text-muted-foreground mb-8">
                 Únete a millones de usuarios que ya disfrutan del mejor contenido en streaming. 
-                Películas, series y documentales exclusivos te esperan.
+                Miles de películas exclusivas y contenido premium te esperan.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -432,8 +450,8 @@ const Index = () => {
               <h4 className="font-semibold text-foreground mb-4">Contenido</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#" className="hover:text-primary transition-colors">Películas</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Series</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Documentales</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Acción</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Drama</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Originales</a></li>
               </ul>
             </div>

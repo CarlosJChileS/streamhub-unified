@@ -5,19 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const categories = [
-  { id: "all", name: "Todo", count: 150 },
-  { id: "movies", name: "Películas", count: 85 },
-  { id: "series", name: "Series", count: 45 },
-  { id: "documentaries", name: "Documentales", count: 20 },
-  { id: "action", name: "Acción", count: 35 },
-  { id: "comedy", name: "Comedia", count: 28 },
-  { id: "drama", name: "Drama", count: 32 },
-  { id: "thriller", name: "Thriller", count: 18 },
-  { id: "sci-fi", name: "Ciencia Ficción", count: 15 },
-  { id: "horror", name: "Terror", count: 12 },
+  { id: "all", name: "Todas las Películas", count: 245 },
+  { id: "action", name: "Acción", count: 68 },
+  { id: "drama", name: "Drama", count: 52 },
+  { id: "comedy", name: "Comedia", count: 38 },
+  { id: "thriller", name: "Thriller", count: 32 },
+  { id: "sci-fi", name: "Ciencia Ficción", count: 28 },
+  { id: "horror", name: "Terror", count: 18 },
+  { id: "romance", name: "Romance", count: 25 },
+  { id: "adventure", name: "Aventura", count: 22 },
 ];
 
-// Sample content data
+// Sample movie content data
 const allContent = [
   {
     id: "1",
@@ -34,59 +33,8 @@ const allContent = [
   },
   {
     id: "2",
-    title: "Breaking Bad",
-    image: "/src/assets/movie-2.jpg",
-    category: "drama",
-    type: "series",
-    year: "2008",
-    rating: "96",
-    duration: "5 temporadas",
-    description: "Un profesor de química de secundaria diagnosticado con cáncer de pulmón inoperable recurre a fabricar y vender metanfetamina para asegurar el futuro financiero de su familia.",
-    cast: ["Bryan Cranston", "Aaron Paul", "Anna Gunn"],
-    director: "Vince Gilligan",
-    episodes: [
-      { id: "e1", title: "Pilot", duration: "58m", image: "/src/assets/movie-2.jpg" },
-      { id: "e2", title: "Cat's in the Bag...", duration: "48m", image: "/src/assets/movie-2.jpg" },
-      { id: "e3", title: "...And the Bag's in the River", duration: "48m", image: "/src/assets/movie-2.jpg" }
-    ]
-  },
-  {
-    id: "3",
-    title: "Stranger Things",
-    image: "/src/assets/movie-3.jpg",
-    category: "sci-fi",
-    type: "series",
-    year: "2016",
-    rating: "89",
-    duration: "4 temporadas",
-    description: "Cuando un niño desaparece, sus amigos, su familia y la policía local se ven envueltos en un misterio que involucra experimentos gubernamentales secretos.",
-    cast: ["Millie Bobby Brown", "Finn Wolfhard", "Winona Ryder"],
-    director: "Matt Duffer, Ross Duffer",
-    isOriginal: true,
-    episodes: [
-      { id: "e1", title: "The Vanishing of Will Byers", duration: "47m", image: "/src/assets/movie-3.jpg" },
-      { id: "e2", title: "The Weirdo on Maple Street", duration: "55m", image: "/src/assets/movie-3.jpg" }
-    ]
-  },
-  // Add more content items here...
-  {
-    id: "4",
-    title: "The Crown",
-    image: "/src/assets/hero-banner.jpg",
-    category: "drama",
-    type: "series",
-    year: "2016",
-    rating: "92",
-    duration: "6 temporadas",
-    description: "Sigue la vida política y los romances de la Reina Elizabeth II, así como los eventos que dieron forma a la segunda mitad del siglo XX.",
-    cast: ["Claire Foy", "Olivia Colman", "Imelda Staunton"],
-    director: "Peter Morgan",
-    isOriginal: true
-  },
-  {
-    id: "5",
     title: "John Wick",
-    image: "/src/assets/movie-1.jpg",
+    image: "/src/assets/movie-2.jpg",
     category: "action",
     type: "movie",
     year: "2014",
@@ -97,18 +45,136 @@ const allContent = [
     director: "Chad Stahelski"
   },
   {
-    id: "6",
-    title: "Our Planet",
+    id: "3",
+    title: "Mad Max: Fury Road",
+    image: "/src/assets/movie-3.jpg",
+    category: "action",
+    type: "movie",
+    year: "2015",
+    rating: "97",
+    duration: "2h 00m",
+    description: "En un mundo post-apocalíptico, Max se une a la Imperadora Furiosa para huir de un señor de la guerra tiránico que los persigue.",
+    cast: ["Tom Hardy", "Charlize Theron", "Nicholas Hoult"],
+    director: "George Miller"
+  },
+  {
+    id: "4",
+    title: "Blade Runner 2049",
     image: "/src/assets/hero-banner.jpg",
-    category: "documentaries",
-    type: "documentary",
-    year: "2019",
-    rating: "95",
-    duration: "8 episodios",
-    description: "Serie documental que explora la diversidad natural de nuestro planeta y cómo el cambio climático impacta a todas las criaturas vivientes.",
-    cast: ["David Attenborough"],
-    director: "Alastair Fothergill",
+    category: "sci-fi",
+    type: "movie",
+    year: "2017",
+    rating: "92",
+    duration: "2h 44m",
+    description: "Un joven blade runner descubre un secreto enterrado que lo lleva a rastrear a Rick Deckard, quien ha estado desaparecido durante 30 años.",
+    cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"],
+    director: "Denis Villeneuve",
     isOriginal: true
+  },
+  {
+    id: "5",
+    title: "Parasite",
+    image: "/src/assets/movie-1.jpg",
+    category: "thriller",
+    type: "movie",
+    year: "2019",
+    rating: "99",
+    duration: "2h 12m",
+    description: "Una familia pobre se infiltra en la vida de una familia rica con consecuencias inesperadas.",
+    cast: ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
+    director: "Bong Joon-ho"
+  },
+  {
+    id: "6",
+    title: "The Batman",
+    image: "/src/assets/movie-2.jpg",
+    category: "action",
+    type: "movie",
+    year: "2022",
+    rating: "85",
+    duration: "2h 56m",
+    description: "Batman se aventura en los bajos fondos de Gotham City para investigar una serie de crímenes brutales.",
+    cast: ["Robert Pattinson", "Zoë Kravitz", "Jeffrey Wright"],
+    director: "Matt Reeves"
+  },
+  {
+    id: "7",
+    title: "Dune",
+    image: "/src/assets/movie-3.jpg",
+    category: "sci-fi",
+    type: "movie",
+    year: "2021",
+    rating: "83",
+    duration: "2h 35m",
+    description: "Paul Atreides debe viajar al planeta más peligroso del universo para asegurar el futuro de su familia y su pueblo.",
+    cast: ["Timothée Chalamet", "Rebecca Ferguson", "Oscar Isaac"],
+    director: "Denis Villeneuve",
+    isOriginal: true
+  },
+  {
+    id: "8",
+    title: "The Grand Budapest Hotel",
+    image: "/src/assets/movie-1.jpg",
+    category: "comedy",
+    type: "movie",
+    year: "2014",
+    rating: "92",
+    duration: "1h 39m",
+    description: "Las aventuras de un conserje legendario y su protégé en un famoso hotel europeo.",
+    cast: ["Ralph Fiennes", "F. Murray Abraham", "Mathieu Amalric"],
+    director: "Wes Anderson"
+  },
+  {
+    id: "9",
+    title: "La La Land",
+    image: "/src/assets/movie-2.jpg",
+    category: "romance",
+    type: "movie",
+    year: "2016",
+    rating: "91",
+    duration: "2h 08m",
+    description: "Una historia de amor entre una aspirante a actriz y un músico de jazz en Los Ángeles.",
+    cast: ["Ryan Gosling", "Emma Stone", "John Legend"],
+    director: "Damien Chazelle"
+  },
+  {
+    id: "10",
+    title: "Hereditary",
+    image: "/src/assets/movie-3.jpg",
+    category: "horror",
+    type: "movie",
+    year: "2018",
+    rating: "89",
+    duration: "2h 07m",
+    description: "Después de la muerte de la matriarca de la familia, secretos aterradores sobre su ascendencia salen a la luz.",
+    cast: ["Toni Collette", "Alex Wolff", "Milly Shapiro"],
+    director: "Ari Aster"
+  },
+  {
+    id: "11",
+    title: "Knives Out",
+    image: "/src/assets/hero-banner.jpg",
+    category: "thriller",
+    type: "movie",
+    year: "2019",
+    rating: "97",
+    duration: "2h 10m",
+    description: "Un detective investiga la muerte de un patriarca de una familia disfuncional.",
+    cast: ["Daniel Craig", "Chris Evans", "Ana de Armas"],
+    director: "Rian Johnson"
+  },
+  {
+    id: "12",
+    title: "Inception",
+    image: "/src/assets/movie-1.jpg",
+    category: "sci-fi",
+    type: "movie",
+    year: "2010",
+    rating: "86",
+    duration: "2h 28m",
+    description: "Un ladrón que se infiltra en los sueños de otros recibe la tarea inversa: plantar una idea en lugar de robarla.",
+    cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy"],
+    director: "Christopher Nolan"
   }
 ];
 
