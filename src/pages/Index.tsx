@@ -374,48 +374,48 @@ const Index = () => {
         />
 
         {/* Call to Action Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-6 lg:px-8 text-center">
+        <section className="py-8 sm:py-12 lg:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="max-w-3xl mx-auto">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
+              <div className="flex items-center justify-center gap-1 sm:gap-2 mb-4">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-500 fill-current" />
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-500 fill-current" />
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-500 fill-current" />
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-500 fill-current" />
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-500 fill-current" />
               </div>
               
-              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
                 ¿Listo para la experiencia premium?
               </h2>
               
-              <p className="text-lg text-muted-foreground mb-8">
+              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-6 sm:mb-8 px-4">
                 Únete a millones de usuarios que ya disfrutan del mejor contenido en streaming. 
                 Miles de películas exclusivas y contenido premium te esperan.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Button size="lg" className="px-8 bg-primary hover:bg-primary/90">
-                  <Play className="w-5 h-5 mr-2" />
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+                <Button size="lg" className="px-6 sm:px-8 bg-primary hover:bg-primary/90 w-full sm:w-auto">
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Comenzar gratis
                 </Button>
                 
-                <Button size="lg" variant="outline" className="px-8">
+                <Button size="lg" variant="outline" className="px-6 sm:px-8 w-full sm:w-auto">
                   Ver planes
                 </Button>
               </div>
 
-              <div className="flex items-center justify-center gap-6 mt-8 text-sm text-muted-foreground">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" />
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>+50K películas</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="w-4 h-4 rounded-full p-0"></Badge>
+                  <Badge variant="secondary" className="w-3 h-3 sm:w-4 sm:h-4 rounded-full p-0"></Badge>
                   <span>Calidad 4K</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Play className="w-4 h-4" />
+                  <Play className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>Sin anuncios</span>
                 </div>
               </div>
@@ -435,9 +435,9 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t border-border bg-card">
-        <div className="container mx-auto px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="sm:col-span-2 lg:col-span-1">
               <h3 className="text-lg font-semibold text-foreground mb-4">
                 Watch<span className="text-primary">Hub</span>
               </h3>
@@ -477,7 +477,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
+          <div className="border-t border-border mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-sm text-muted-foreground">
             <p>&copy; 2024 WatchHub Streaming. Todos los derechos reservados.</p>
           </div>
         </div>

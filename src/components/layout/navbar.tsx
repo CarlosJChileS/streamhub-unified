@@ -34,11 +34,11 @@ export function Navbar() {
           ? 'bg-background/95 backdrop-blur-sm border-b border-border' 
           : 'bg-transparent'
       }`}>
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold text-white">
+              <Link to="/" className="text-xl sm:text-2xl font-bold text-white">
                 Watch<span className="text-primary">Hub</span>
               </Link>
             </div>
@@ -62,18 +62,18 @@ export function Navbar() {
             {/* Right side */}
             <div className="flex items-center space-x-4">
               {/* Search */}
-              <Link to="/search" className="hidden md:block relative">
+              <Link to="/search" className="hidden lg:block relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   placeholder="Buscar contenido..."
-                  className="pl-10 w-64 bg-secondary/50 border-border text-white placeholder:text-muted-foreground"
+                  className="pl-10 w-48 xl:w-64 bg-secondary/50 border-border text-white placeholder:text-muted-foreground"
                 />
               </Link>
 
               {/* Mobile search */}
               <Link to="/search">
-                <Button variant="ghost" size="sm" className="md:hidden text-white">
-                  <Search className="w-5 h-5" />
+                <Button variant="ghost" size="sm" className="lg:hidden text-white">
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </Link>
 
@@ -81,9 +81,9 @@ export function Navbar() {
               <ThemeToggle />
 
               {/* Notifications */}
-              <Button variant="ghost" size="sm" className="text-white relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <Button variant="ghost" size="sm" className="text-white relative hidden sm:flex">
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                   3
                 </span>
               </Button>
@@ -158,8 +158,8 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={() => setIsMobileMenuOpen(false)} />
-          <div className="fixed top-16 left-0 right-0 bg-background border-b border-border shadow-lg">
-            <div className="container mx-auto px-6 py-4">
+          <div className="fixed top-14 sm:top-16 left-0 right-0 bg-background border-b border-border shadow-lg">
+            <div className="container mx-auto px-4 sm:px-6 py-4">
               <nav className="space-y-4">
                 <Link
                   to="/"
