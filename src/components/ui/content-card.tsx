@@ -1,23 +1,28 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Plus, ThumbsUp, Info } from "lucide-react";
+import { Play, Plus, ThumbsUp, Info, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useWatchlist } from "@/hooks/useWatchlist";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ContentCardProps {
+  id?: string;
   title: string;
   image: string;
-  rating?: string;
-  duration?: string;
+  rating?: string | number;
+  duration?: string | number;
   category?: string;
   isNew?: boolean;
   isOriginal?: boolean;
-  year?: string;
+  year?: string | number;
+  type?: "movie" | "series";
   className?: string;
   onClick?: () => void;
 }
 
 export function ContentCard({ 
+  id,
   title, 
   image, 
   rating, 
@@ -26,9 +31,50 @@ export function ContentCard({
   isNew,
   isOriginal,
   year,
+  type = "movie",
   className,
   onClick 
 }: ContentCardProps) {
+  const { addToWatchlist, removeFromWatchlist, isInWatchlist, loading: watchlistLoading } = useWatchlist();
+  const { user } = useAuth();
+  
+  const inWatchlist = id ? isInWatchlist(id) : false;
+
+  const handleWatchlistToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!id) return;
+    
+    if (inWatchlist) {
+      removeFromWatchlist(id);
+    } else {
+      addToWatchlist(id);
+    }
+  };
+
+  // Helper functions to format values
+  const formatDuration = (duration: string | number | undefined) => {
+    if (!duration) return "";
+    
+    if (typeof duration === "string") return duration;
+    
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  };
+
+  const formatRating = (rating: string | number | undefined) => {
+    if (!rating) return null;
+    
+    if (typeof rating === "string") return rating;
+    
+    // Assume rating is 0-5, convert to percentage
+    return `${Math.round(rating * 20)}%`;
+  };
+
+  const formatYear = (year: string | number | undefined) => {
+    if (!year) return "";
+    return year.toString();
+  };
   return (
     <Card 
       className={cn(
@@ -63,9 +109,9 @@ export function ContentCard({
                 </Badge>
               )}
             </div>
-            {rating && (
+            {formatRating(rating) && (
               <Badge variant="secondary" className="bg-black/70 text-white border-0 text-xs font-semibold">
-                {rating} coincidencia
+                {formatRating(rating)} coincidencia
               </Badge>
             )}
           </div>
@@ -77,9 +123,17 @@ export function ContentCard({
                 <Play className="w-4 h-4 mr-1" />
                 Reproducir
               </Button>
-              <Button size="sm" variant="outline" className="rounded-full border-white text-white hover:bg-white hover:text-black p-2">
-                <Plus className="w-4 h-4" />
-              </Button>
+              {user && id && (
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="rounded-full border-white text-white hover:bg-white hover:text-black p-2"
+                  onClick={handleWatchlistToggle}
+                  disabled={watchlistLoading}
+                >
+                  {inWatchlist ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                </Button>
+              )}
               <Button size="sm" variant="outline" className="rounded-full border-white text-white hover:bg-white hover:text-black p-2">
                 <ThumbsUp className="w-4 h-4" />
               </Button>
@@ -91,8 +145,8 @@ export function ContentCard({
             <div className="text-white">
               <h3 className="font-semibold text-sm mb-2 line-clamp-2">{title}</h3>
               <div className="flex items-center gap-2 text-xs text-white/80 mb-1">
-                {year && <span className="text-green-400 font-semibold">{year}</span>}
-                {duration && <span>{duration}</span>}
+                {year && <span className="text-green-400 font-semibold">{formatYear(year)}</span>}
+                {duration && <span>{formatDuration(duration)}</span>}
                 {category && <span>• {category}</span>}
               </div>
               <div className="flex items-center gap-1 text-xs text-white/60">

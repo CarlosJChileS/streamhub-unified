@@ -1,262 +1,245 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Navbar } from "@/components/layout/navbar";
 import { ContentCard } from "@/components/ui/content-card";
-import { ContentDetailModal } from "@/components/ui/content-detail-modal";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useMovies } from "@/hooks/useMovies";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Search, Filter, Grid, List } from "lucide-react";
 
-const categories = [
-  { id: "all", name: "Todas las Películas", count: 245 },
-  { id: "action", name: "Acción", count: 68 },
-  { id: "drama", name: "Drama", count: 52 },
-  { id: "comedy", name: "Comedia", count: 38 },
-  { id: "thriller", name: "Thriller", count: 32 },
-  { id: "sci-fi", name: "Ciencia Ficción", count: 28 },
-  { id: "horror", name: "Terror", count: 18 },
-  { id: "romance", name: "Romance", count: 25 },
-  { id: "adventure", name: "Aventura", count: 22 },
-];
+const Categories = () => {
+  const { movies, loading } = useMovies();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState<string>("all");
+  const [sortBy, setSortBy] = useState("title");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-// Sample movie content data
-const allContent = [
-  {
-    id: "1",
-    title: "Extraction",
-    image: "/src/assets/movie-1.jpg",
-    category: "action",
-    type: "movie",
-    year: "2020",
-    rating: "94",
-    duration: "1h 56m",
-    description: "Un mercenario del mercado negro de armas se embarca en una misión de rescate mortal para salvar al hijo secuestrado de un señor del crimen internacional.",
-    cast: ["Chris Hemsworth", "Rudhraksh Jaiswal", "Randeep Hooda"],
-    director: "Sam Hargrave"
-  },
-  {
-    id: "2",
-    title: "John Wick",
-    image: "/src/assets/movie-2.jpg",
-    category: "action",
-    type: "movie",
-    year: "2014",
-    rating: "88",
-    duration: "1h 41m",
-    description: "Un ex-asesino a sueldo sale de su retiro para rastrear a los gángsters que mataron a su perro y se llevaron su auto.",
-    cast: ["Keanu Reeves", "Michael Nyqvist", "Alfie Allen"],
-    director: "Chad Stahelski"
-  },
-  {
-    id: "3",
-    title: "Mad Max: Fury Road",
-    image: "/src/assets/movie-3.jpg",
-    category: "action",
-    type: "movie",
-    year: "2015",
-    rating: "97",
-    duration: "2h 00m",
-    description: "En un mundo post-apocalíptico, Max se une a la Imperadora Furiosa para huir de un señor de la guerra tiránico que los persigue.",
-    cast: ["Tom Hardy", "Charlize Theron", "Nicholas Hoult"],
-    director: "George Miller"
-  },
-  {
-    id: "4",
-    title: "Blade Runner 2049",
-    image: "/src/assets/hero-banner.jpg",
-    category: "sci-fi",
-    type: "movie",
-    year: "2017",
-    rating: "92",
-    duration: "2h 44m",
-    description: "Un joven blade runner descubre un secreto enterrado que lo lleva a rastrear a Rick Deckard, quien ha estado desaparecido durante 30 años.",
-    cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"],
-    director: "Denis Villeneuve",
-    isOriginal: true
-  },
-  {
-    id: "5",
-    title: "Parasite",
-    image: "/src/assets/movie-1.jpg",
-    category: "thriller",
-    type: "movie",
-    year: "2019",
-    rating: "99",
-    duration: "2h 12m",
-    description: "Una familia pobre se infiltra en la vida de una familia rica con consecuencias inesperadas.",
-    cast: ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
-    director: "Bong Joon-ho"
-  },
-  {
-    id: "6",
-    title: "The Batman",
-    image: "/src/assets/movie-2.jpg",
-    category: "action",
-    type: "movie",
-    year: "2022",
-    rating: "85",
-    duration: "2h 56m",
-    description: "Batman se aventura en los bajos fondos de Gotham City para investigar una serie de crímenes brutales.",
-    cast: ["Robert Pattinson", "Zoë Kravitz", "Jeffrey Wright"],
-    director: "Matt Reeves"
-  },
-  {
-    id: "7",
-    title: "Dune",
-    image: "/src/assets/movie-3.jpg",
-    category: "sci-fi",
-    type: "movie",
-    year: "2021",
-    rating: "83",
-    duration: "2h 35m",
-    description: "Paul Atreides debe viajar al planeta más peligroso del universo para asegurar el futuro de su familia y su pueblo.",
-    cast: ["Timothée Chalamet", "Rebecca Ferguson", "Oscar Isaac"],
-    director: "Denis Villeneuve",
-    isOriginal: true
-  },
-  {
-    id: "8",
-    title: "The Grand Budapest Hotel",
-    image: "/src/assets/movie-1.jpg",
-    category: "comedy",
-    type: "movie",
-    year: "2014",
-    rating: "92",
-    duration: "1h 39m",
-    description: "Las aventuras de un conserje legendario y su protégé en un famoso hotel europeo.",
-    cast: ["Ralph Fiennes", "F. Murray Abraham", "Mathieu Amalric"],
-    director: "Wes Anderson"
-  },
-  {
-    id: "9",
-    title: "La La Land",
-    image: "/src/assets/movie-2.jpg",
-    category: "romance",
-    type: "movie",
-    year: "2016",
-    rating: "91",
-    duration: "2h 08m",
-    description: "Una historia de amor entre una aspirante a actriz y un músico de jazz en Los Ángeles.",
-    cast: ["Ryan Gosling", "Emma Stone", "John Legend"],
-    director: "Damien Chazelle"
-  },
-  {
-    id: "10",
-    title: "Hereditary",
-    image: "/src/assets/movie-3.jpg",
-    category: "horror",
-    type: "movie",
-    year: "2018",
-    rating: "89",
-    duration: "2h 07m",
-    description: "Después de la muerte de la matriarca de la familia, secretos aterradores sobre su ascendencia salen a la luz.",
-    cast: ["Toni Collette", "Alex Wolff", "Milly Shapiro"],
-    director: "Ari Aster"
-  },
-  {
-    id: "11",
-    title: "Knives Out",
-    image: "/src/assets/hero-banner.jpg",
-    category: "thriller",
-    type: "movie",
-    year: "2019",
-    rating: "97",
-    duration: "2h 10m",
-    description: "Un detective investiga la muerte de un patriarca de una familia disfuncional.",
-    cast: ["Daniel Craig", "Chris Evans", "Ana de Armas"],
-    director: "Rian Johnson"
-  },
-  {
-    id: "12",
-    title: "Inception",
-    image: "/src/assets/movie-1.jpg",
-    category: "sci-fi",
-    type: "movie",
-    year: "2010",
-    rating: "86",
-    duration: "2h 28m",
-    description: "Un ladrón que se infiltra en los sueños de otros recibe la tarea inversa: plantar una idea en lugar de robarla.",
-    cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy"],
-    director: "Christopher Nolan"
+  useEffect(() => {
+    if (!user) {
+      navigate("/welcome");
+    }
+  }, [user, navigate]);
+
+  // Get unique genres from movies
+  const genres = Array.from(
+    new Set(
+      movies.flatMap(movie => movie.genre || [])
+    )
+  ).sort();
+
+  // Filter and sort movies
+  const filteredMovies = movies
+    .filter(movie => {
+      const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesGenre = selectedGenre === "all" || movie.genre?.includes(selectedGenre);
+      return matchesSearch && matchesGenre;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "title":
+          return a.title.localeCompare(b.title);
+        case "year":
+          return (b.release_year || 0) - (a.release_year || 0);
+        case "rating":
+          return (b.rating || 0) - (a.rating || 0);
+        default:
+          return 0;
+      }
+    });
+
+  if (!user) {
+    return null;
   }
-];
 
-export default function Categories() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedContent, setSelectedContent] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const filteredContent = selectedCategory === "all" 
-    ? allContent 
-    : allContent.filter(item => item.category === selectedCategory);
-
-  const handleContentClick = (content: any) => {
-    setSelectedContent(content);
-    setIsModalOpen(true);
-  };
-
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="relative bg-gradient-to-b from-primary/20 to-background py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Explora por categorías
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Descubre contenido organizado por géneros y tipos
-          </p>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-32 flex items-center justify-center">
+          <LoadingSpinner />
         </div>
       </div>
+    );
+  }
 
-      {/* Categories Filter */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-wrap gap-3 mb-8">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center gap-2"
-            >
-              {category.name}
-              <Badge variant="secondary" className="text-xs">
-                {category.count}
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-4">Explorar Películas</h1>
+          <p className="text-muted-foreground">
+            Descubre nuestro catálogo completo de películas y series
+          </p>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            {/* Search */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Buscar películas..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Genre Filter */}
+            <Select value={selectedGenre} onValueChange={setSelectedGenre}>
+              <SelectTrigger className="w-full sm:w-48">
+                <SelectValue placeholder="Todos los géneros" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los géneros</SelectItem>
+                {genres.map((genre) => (
+                  <SelectItem key={genre} value={genre}>
+                    {genre}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Sort */}
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-full sm:w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="title">Título (A-Z)</SelectItem>
+                <SelectItem value="year">Año (Nuevo)</SelectItem>
+                <SelectItem value="rating">Calificación</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* View Mode */}
+            <div className="flex border border-border rounded-md">
+              <Button
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+                className="rounded-r-none"
+              >
+                <Grid className="w-4 h-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("list")}
+                className="rounded-l-none"
+              >
+                <List className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Active Filters */}
+          <div className="flex flex-wrap gap-2">
+            {searchTerm && (
+              <Badge variant="secondary" className="gap-2">
+                Búsqueda: "{searchTerm}"
+                <button onClick={() => setSearchTerm("")} className="hover:text-destructive">
+                  ×
+                </button>
               </Badge>
-            </Button>
-          ))}
+            )}
+            {selectedGenre !== "all" && (
+              <Badge variant="secondary" className="gap-2">
+                Género: {selectedGenre}
+                <button onClick={() => setSelectedGenre("all")} className="hover:text-destructive">
+                  ×
+                </button>
+              </Badge>
+            )}
+          </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {filteredContent.map((content) => (
-            <ContentCard
-              key={content.id}
-              title={content.title}
-              image={content.image}
-              rating={content.rating}
-              year={content.year}
-              isNew={false}
-              isOriginal={content.isOriginal}
-              onClick={() => handleContentClick(content)}
-            />
-          ))}
+        {/* Results Count */}
+        <div className="mb-6">
+          <p className="text-muted-foreground">
+            Mostrando {filteredMovies.length} de {movies.length} películas
+          </p>
         </div>
 
-        {filteredContent.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground text-xl">
-              No se encontró contenido en esta categoría
+        {/* Movies Grid */}
+        {filteredMovies.length === 0 ? (
+          <div className="text-center py-12">
+            <h3 className="text-xl font-semibold mb-2">No se encontraron películas</h3>
+            <p className="text-muted-foreground mb-4">
+              Intenta cambiar los filtros o términos de búsqueda
             </p>
+            <Button onClick={() => {
+              setSearchTerm("");
+              setSelectedGenre("all");
+            }}>
+              Limpiar filtros
+            </Button>
+          </div>
+        ) : viewMode === "grid" ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+            {filteredMovies.map((movie) => (
+              <ContentCard
+                key={movie.id}
+                id={movie.id}
+                title={movie.title}
+                image={movie.poster_url || "/placeholder.svg"}
+                type="movie"
+                rating={movie.rating || 0}
+                year={movie.release_year}
+                duration={movie.duration}
+                category={movie.genre?.[0]}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredMovies.map((movie) => (
+              <div
+                key={movie.id}
+                className="flex items-center gap-4 p-4 border border-border rounded-lg hover:bg-card/50 transition-colors"
+              >
+                <img
+                  src={movie.poster_url || "/placeholder.svg"}
+                  alt={movie.title}
+                  className="w-20 h-28 object-cover rounded-md"
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground mb-1">{movie.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+                    {movie.description}
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <span>{movie.release_year}</span>
+                    {movie.duration && <span>{Math.floor(movie.duration / 60)}h {movie.duration % 60}m</span>}
+                    {movie.genre?.map((g) => (
+                      <Badge key={g} variant="outline" className="text-xs">
+                        {g}
+                      </Badge>
+                    ))}
+                    {movie.rating && (
+                      <span className="text-primary font-medium">
+                        {Math.round(movie.rating * 20)}%
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
-
-      {/* Content Detail Modal */}
-      {selectedContent && (
-        <ContentDetailModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          content={selectedContent}
-        />
-      )}
     </div>
   );
-}
+};
+
+export default Categories;
