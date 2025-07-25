@@ -6,15 +6,45 @@ import { ContinueWatchingRow } from "@/components/ui/continue-watching-row";
 import { ContentDetailModal } from "@/components/ui/content-detail-modal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Star, Play, TrendingUp, Award, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useMovies } from "@/hooks/useMovies";
 import movie1 from "@/assets/movie-1.jpg";
 import movie2 from "@/assets/movie-2.jpg";
 import movie3 from "@/assets/movie-3.jpg";
 
 const Index = () => {
+  const { movies, loading, getFeaturedMovies, getMoviesByGenre } = useMovies();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/welcome");
+    }
+  }, [user, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const featuredMovies = getFeaturedMovies();
+  const actionMovies = getMoviesByGenre("Acción");
+  const dramaMovies = getMoviesByGenre("Drama");
+  const comedyMovies = getMoviesByGenre("Comedia");
 
   const handleContentClick = (content: any) => {
     const detailContent = {
@@ -61,70 +91,23 @@ const Index = () => {
     return directors[title] || "Director Reconocido";
   };
 
-  // Sample content data
-  const trendingMovies = [
-    {
-      id: "1",
-      title: "El Último Guardián",
-      image: movie1,
-      rating: "98%",
-      duration: "2h 15m",
-      category: "Acción",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "2",
-      title: "Corazones en París",
-      image: movie2,
-      rating: "92%",
-      duration: "1h 58m",
-      category: "Romance",
-      isNew: false,
-      year: "2024"
-    },
-    {
-      id: "3",
-      title: "Neo Tokyo 2099",
-      image: movie3,
-      rating: "95%",
-      duration: "2h 32m",
-      category: "Sci-Fi",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "4",
-      title: "La Conspiración",
-      image: movie1,
-      rating: "89%",
-      duration: "2h 08m",
-      category: "Thriller",
-      isNew: false,
-      year: "2023"
-    },
-    {
-      id: "5",
-      title: "Memorias Perdidas",
-      image: movie2,
-      rating: "94%",
-      duration: "1h 45m",
-      category: "Drama",
-      isNew: false,
-      year: "2024"
-    },
-    {
-      id: "6",
-      title: "Guerra de Estrellas",
-      image: movie3,
-      rating: "96%",
-      duration: "2h 25m",
-      category: "Aventura",
-      isNew: true,
-      year: "2024"
-    }
-  ];
+  // Convert database movies to display format
+  const mapMoviesToContent = (dbMovies: any[]) => {
+    return dbMovies.map(movie => ({
+      id: movie.id,
+      title: movie.title,
+      image: movie.poster_url || "/placeholder.svg",
+      rating: movie.rating ? `${Math.round(movie.rating * 20)}%` : "N/A",
+      duration: movie.duration ? `${Math.floor(movie.duration / 60)}h ${movie.duration % 60}m` : "N/A",
+      category: movie.genre?.[0] || "Película",
+      isNew: movie.release_year === 2024,
+      year: movie.release_year?.toString() || "2024"
+    }));
+  };
 
+  // Sample content data for sections that don't have database equivalent
+  const trendingMovies = mapMoviesToContent(featuredMovies.slice(0, 6));
+  
   const netflixOriginals = [
     {
       id: "7",
@@ -172,18 +155,13 @@ const Index = () => {
     }
   ];
 
-  const topTenToday = [
-    { id: "t1", title: "El Último Guardián", image: movie1, rank: 1, category: "Acción" },
-    { id: "t2", title: "Neo Tokyo 2099", image: movie3, rank: 2, category: "Sci-Fi" },
-    { id: "t3", title: "Corazones en París", image: movie2, rank: 3, category: "Romance" },
-    { id: "t4", title: "La Conspiración", image: movie1, rank: 4, category: "Thriller" },
-    { id: "t5", title: "Memorias Perdidas", image: movie2, rank: 5, category: "Drama" },
-    { id: "t6", title: "Guerra de Estrellas", image: movie3, rank: 6, category: "Aventura" },
-    { id: "t7", title: "El Proyecto Atlas", image: movie1, rank: 7, category: "Sci-Fi" },
-    { id: "t8", title: "Contra el Tiempo", image: movie2, rank: 8, category: "Thriller" },
-    { id: "t9", title: "Renacer", image: movie3, rank: 9, category: "Drama" },
-    { id: "t10", title: "Fuego Cruzado", image: movie1, rank: 10, category: "Acción" }
-  ];
+  const topTenToday = movies.slice(0, 10).map((movie, index) => ({
+    id: movie.id,
+    title: movie.title,
+    image: movie.poster_url || "/placeholder.svg",
+    rank: index + 1,
+    category: movie.genre?.[0] || "Película"
+  }));
 
   const continueWatching = [
     { 
@@ -224,102 +202,6 @@ const Index = () => {
     }
   ];
 
-  const actionMovies = [
-    {
-      id: "a1",
-      title: "John Wick: Capítulo 5",
-      image: movie1,
-      rating: "94%",
-      duration: "2h 18m",
-      category: "Acción",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "a2",
-      title: "Mad Max: Furiosa",
-      image: movie2,
-      rating: "89%",
-      duration: "2h 28m",
-      category: "Acción",
-      isNew: false,
-      year: "2024"
-    },
-    {
-      id: "a3",
-      title: "Mission Impossible 8",
-      image: movie3,
-      rating: "92%",
-      duration: "2h 35m",
-      category: "Acción",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "a4",
-      title: "Fast X: The Final Chapter",
-      image: movie1,
-      rating: "87%",
-      duration: "2h 42m",
-      category: "Acción",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "a5",
-      title: "Expendables 5",
-      image: movie2,
-      rating: "85%",
-      duration: "2h 08m",
-      category: "Acción",
-      isNew: false,
-      year: "2024"
-    }
-  ];
-
-  const dramaMovies = [
-    {
-      id: "d1",
-      title: "Oppenheimer",
-      image: movie2,
-      rating: "94%",
-      duration: "3h 00m",
-      category: "Drama",
-      isNew: false,
-      year: "2023"
-    },
-    {
-      id: "d2",
-      title: "Killers of the Flower Moon",
-      image: movie1,
-      rating: "92%",
-      duration: "3h 26m",
-      category: "Drama",
-      isNew: false,
-      year: "2023"
-    },
-    {
-      id: "d3",
-      title: "The Zone of Interest",
-      image: movie3,
-      rating: "89%",
-      duration: "1h 45m",
-      category: "Drama",
-      isNew: true,
-      year: "2024"
-    },
-    {
-      id: "d4",
-      title: "Past Lives",
-      image: movie2,
-      rating: "95%",
-      duration: "1h 45m",
-      category: "Drama",
-      isNew: false,
-      year: "2023"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -341,6 +223,16 @@ const Index = () => {
           items={topTenToday}
         />
 
+        {/* Featured Movies from Database */}
+        {featuredMovies.length > 0 && (
+          <ContentRow
+            title="Destacadas"
+            subtitle="Lo mejor del catálogo"
+            items={mapMoviesToContent(featuredMovies)}
+            onItemClick={handleContentClick}
+          />
+        )}
+
         {/* Trending */}
         <ContentRow
           title="Tendencias ahora"
@@ -357,19 +249,48 @@ const Index = () => {
           onItemClick={handleContentClick}
         />
 
-        {/* Action Movies */}
+        {/* Action Movies from Database */}
+        {actionMovies.length > 0 && (
+          <ContentRow
+            title="Películas de acción explosivas"
+            subtitle="Adrenalina y aventura sin límites"
+            items={mapMoviesToContent(actionMovies)}
+            onItemClick={handleContentClick}
+          />
+        )}
+
+        {/* Drama Movies from Database */}
+        {dramaMovies.length > 0 && (
+          <ContentRow
+            title="Dramas aclamados"
+            subtitle="Historias que marcan la diferencia"
+            items={mapMoviesToContent(dramaMovies)}
+            onItemClick={handleContentClick}
+          />
+        )}
+
+        {/* Comedy Movies from Database */}
+        {comedyMovies.length > 0 && (
+          <ContentRow
+            title="Comedias divertidas"
+            subtitle="Para reír sin parar"
+            items={mapMoviesToContent(comedyMovies)}
+            onItemClick={handleContentClick}
+          />
+        )}
+
+        {/* Other Genres */}
         <ContentRow
-          title="Películas de acción explosivas"
-          subtitle="Adrenalina y aventura sin límites"
-          items={actionMovies}
+          title="Ciencia Ficción"
+          subtitle="El futuro en pantalla"
+          items={mapMoviesToContent(getMoviesByGenre("Ciencia Ficción"))}
           onItemClick={handleContentClick}
         />
 
-        {/* Drama Movies */}
         <ContentRow
-          title="Dramas aclamados"
-          subtitle="Historias que marcan la diferencia"
-          items={dramaMovies}
+          title="Thriller"
+          subtitle="Suspense y emoción"
+          items={mapMoviesToContent(getMoviesByGenre("Thriller"))}
           onItemClick={handleContentClick}
         />
 
@@ -395,20 +316,20 @@ const Index = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-                <Button size="lg" className="px-6 sm:px-8 bg-primary hover:bg-primary/90 w-full sm:w-auto">
+                <Button size="lg" className="px-6 sm:px-8 bg-primary hover:bg-primary/90 w-full sm:w-auto" onClick={() => navigate("/subscriptions")}>
                   <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Comenzar gratis
+                  Ver planes
                 </Button>
                 
-                <Button size="lg" variant="outline" className="px-6 sm:px-8 w-full sm:w-auto">
-                  Ver planes
+                <Button size="lg" variant="outline" className="px-6 sm:px-8 w-full sm:w-auto" onClick={() => navigate("/categories")}>
+                  Explorar catálogo
                 </Button>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>+50K películas</span>
+                  <span>+{movies.length} películas</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary" className="w-3 h-3 sm:w-4 sm:h-4 rounded-full p-0"></Badge>

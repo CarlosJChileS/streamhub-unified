@@ -11,12 +11,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Search, Bell, User, Settings, LogOut, Menu, X, Crown, CreditCard } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/welcome");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,56 +97,65 @@ export function Navbar() {
               </Button>
 
               {/* User menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="" alt="Usuario" />
-                      <AvatarFallback className="bg-primary text-primary-foreground">
-                        <User className="w-4 h-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-popover border-border shadow-lg" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">María García</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        maria@ejemplo.com
-                      </p>
-                      <div className="flex items-center mt-2">
-                        <Crown className="w-3 h-3 text-premium-gold mr-1" />
-                        <span className="text-xs text-premium-gold font-medium">Plan Premium</span>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src="" alt="Usuario" />
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          {user.email?.charAt(0).toUpperCase() || <User className="w-4 h-4" />}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64 bg-popover border-border shadow-lg" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">Usuario</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                        <div className="flex items-center mt-2">
+                          <Crown className="w-3 h-3 text-premium-gold mr-1" />
+                          <span className="text-xs text-premium-gold font-medium">Plan Premium</span>
+                        </div>
                       </div>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to="/profiles" className="flex items-center">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Gestionar perfiles</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/subscriptions" className="flex items-center">
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      <span>Suscripción</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/settings" className="flex items-center">
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Configuración</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-destructive focus:text-destructive">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Cerrar sesión</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profiles" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Gestionar perfiles</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/subscriptions" className="flex items-center">
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        <span>Suscripción</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/settings" className="flex items-center">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Configuración</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Cerrar sesión</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  onClick={() => navigate("/login")}
+                  className="bg-primary hover:bg-primary/90 text-white"
+                >
+                  Iniciar sesión
+                </Button>
+              )}
 
               {/* Mobile menu button */}
               <Button

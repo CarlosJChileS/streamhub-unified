@@ -1,21 +1,50 @@
-import { useState } from "react";
-import { Heart, Clock, Download, Share2, Filter, Grid, List } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ContentCard } from "@/components/ui/content-card";
-import { ContentDetailModal } from "@/components/ui/content-detail-modal";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
-import movie1 from "@/assets/movie-1.jpg";
-import movie2 from "@/assets/movie-2.jpg";
-import movie3 from "@/assets/movie-3.jpg";
+import { ContentCard } from "@/components/ui/content-card";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EmptyState } from "@/components/ui/empty-state";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { Movie } from "@/hooks/useMovies";
+import { useNavigate } from "react-router-dom";
 
-export default function MyList() {
-  const [selectedContent, setSelectedContent] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState("grid");
-  const [sortBy, setSortBy] = useState("added-desc");
+const MyList = () => {
+  const [watchlistMovies, setWatchlistMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/welcome");
+      return;
+    }
+    fetchWatchlist();
+  }, [user, navigate]);
+
+  const fetchWatchlist = async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('watchlist')
+        .select(`
+          movie_id,
+          movies (*)
+        `)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      
+      const movies = data?.map(item => item.movies).filter(Boolean) || [];
+      setWatchlistMovies(movies as Movie[]);
+    } catch (error) {
+      console.error('Error fetching watchlist:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const favorites = [
     {

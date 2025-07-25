@@ -4,9 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -16,44 +17,45 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { signIn, user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login process
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Demo login validation
-      if (email === "demo@watchhub.com" && password === "demo123") {
-        toast({
-          title: "¡Bienvenido a WatchHub!",
-          description: "Has iniciado sesión exitosamente.",
-        });
-        navigate("/home");
-      } else if (email === "admin@watchhub.com" && password === "admin123") {
-        toast({
-          title: "Acceso administrativo",
-          description: "Redirigiendo al panel de administración...",
-        });
-        navigate("/admin/dashboard");
-      } else {
-        toast({
-          title: "Error de autenticación",
-          description: "Email o contraseña incorrectos. Usa demo@watchhub.com / demo123",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
+    if (!email || !password) {
       toast({
-        title: "Error de conexión",
-        description: "No se pudo conectar con el servidor.",
+        title: "Campos requeridos",
+        description: "Por favor ingresa tu email y contraseña.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
+      return;
     }
+
+    const { error } = await signIn(email, password);
+
+    if (error) {
+      toast({
+        title: "Error de autenticación",
+        description: error.message || "Email o contraseña incorrectos.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "¡Bienvenido!",
+        description: "Has iniciado sesión correctamente.",
+      });
+      navigate("/home");
+    }
+
+    setIsLoading(false);
   };
 
   return (

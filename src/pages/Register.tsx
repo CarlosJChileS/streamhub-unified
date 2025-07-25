@@ -4,8 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, ArrowLeft, Check } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -19,11 +21,53 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica de registro
-    console.log("Register attempt:", formData);
+    setIsLoading(true);
+    
+    if (!acceptTerms) {
+      toast({
+        title: "Términos requeridos",
+        description: "Debes aceptar los términos y condiciones.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Contraseñas no coinciden",
+        description: "Las contraseñas deben ser idénticas.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const displayName = `${formData.firstName} ${formData.lastName}`.trim();
+    const { error } = await signUp(formData.email, formData.password, displayName);
+
+    if (error) {
+      toast({
+        title: "Error en el registro",
+        description: error.message || "Hubo un problema al crear tu cuenta.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "¡Cuenta creada!",
+        description: "Tu cuenta ha sido creada exitosamente. Puedes iniciar sesión.",
+      });
+      navigate("/login");
+    }
+
+    setIsLoading(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -226,10 +270,10 @@ export default function Register() {
 
             <Button 
               type="submit" 
-              disabled={!acceptTerms || !isPasswordValid || !doPasswordsMatch}
+              disabled={!acceptTerms || !isPasswordValid || !doPasswordsMatch || isLoading}
               className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Crear cuenta
+              {isLoading ? "Creando cuenta..." : "Crear cuenta"}
             </Button>
           </form>
 
