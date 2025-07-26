@@ -59,3 +59,21 @@ port = 54321
 
 [analytics]
 enabled = false
+
+[functions.check-subscription]
+verify_jwt = true
+
+[functions.create-checkout]
+verify_jwt = true
+
+[functions.customer-portal]
+verify_jwt = true
+
+[functions.create-paypal-payment]
+verify_jwt = true
+
+[functions.create-paypal-subscription]
+verify_jwt = true
+
+[functions.verify-paypal-payment]
+verify_jwt = true
