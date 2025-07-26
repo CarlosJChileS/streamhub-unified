@@ -11,6 +11,7 @@ import { Star, Play, TrendingUp, Award, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 import { useMovies } from "@/hooks/useMovies";
 import movie1 from "@/assets/movie-1.jpg";
 import movie2 from "@/assets/movie-2.jpg";
@@ -19,6 +20,7 @@ import movie3 from "@/assets/movie-3.jpg";
 const Index = () => {
   const { movies, loading, getFeaturedMovies, getMoviesByGenre } = useMovies();
   const { user } = useAuth();
+  const { subscribed } = useSubscription();
   const navigate = useNavigate();
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);

@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Play, Plus, ThumbsUp, ThumbsDown, Share, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { VideoPlayer } from "./video-player";
 import { RatingSystem } from "./rating-system";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 interface MovieDetailModalProps {
   isOpen: boolean;
@@ -27,6 +29,16 @@ interface MovieDetailModalProps {
 
 export function MovieDetailModal({ isOpen, onClose, content }: MovieDetailModalProps) {
   const [showPlayer, setShowPlayer] = useState(false);
+  const { subscribed } = useSubscription();
+  const navigate = useNavigate();
+
+  const handlePlay = () => {
+    if (!subscribed) {
+      navigate("/subscriptions");
+      return;
+    }
+    setShowPlayer(true);
+  };
 
   if (showPlayer) {
     return (
@@ -66,11 +78,11 @@ export function MovieDetailModal({ isOpen, onClose, content }: MovieDetailModalP
               <div className="flex items-center gap-4 mb-6">
                 <Button
                   size="lg"
-                  onClick={() => setShowPlayer(true)}
+                  onClick={handlePlay}
                   className="bg-white text-black hover:bg-white/90 px-8"
                 >
                   <Play className="w-5 h-5 mr-2" />
-                  Reproducir
+                  {subscribed ? "Reproducir" : "Suscríbete para ver"}
                 </Button>
                 <Button
                   size="lg"
